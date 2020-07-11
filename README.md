@@ -4,7 +4,7 @@
 ![Lint](https://github.com/unicsmcr/unics_social_api_client/workflows/Lint/badge.svg)
 [![codecov](https://codecov.io/gh/unicsmcr/unics_social_api_client/branch/main/graph/badge.svg)](https://codecov.io/gh/unicsmcr/unics_social_api_client)
 
-Description pending! 🙈
+A TypeScript API Client for UniCS's networking platform for Computer Sciences students at the University of Manchester.
 
 ## License
 
