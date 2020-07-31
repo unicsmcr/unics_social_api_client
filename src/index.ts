@@ -1,8 +1,8 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, ProfileData, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData } from './types';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, ProfileData, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage } from './types';
 import axios, { AxiosResponse } from 'axios';
 
 export class APIClient {
-	private token?: string;
+	public token?: string;
 	private readonly apiBase: string;
 
 	public constructor(data: { token?: string; apiBase: string }) {
@@ -85,5 +85,37 @@ export class APIClient {
 			startTime: new Date(response.data.event.startTime),
 			endTime: new Date(response.data.event.endTime)
 		};
+	}
+
+	/*
+		Message Routes
+	*/
+
+	public async getMessage(data: GetMessageData): Promise<ProcessedAPIMessage> {
+		const response: AxiosResponse<{ message: APIMessage }> = await axios.get(`${this.apiBase}/channels/${data.channelID}/messages/${data.messageID}`, this.baseConfig);
+		return {
+			...response.data.message,
+			time: new Date(response.data.message.time)
+		};
+	}
+
+	public async getMessages(channelID: string): Promise<ProcessedAPIMessage[]> {
+		const response: AxiosResponse<{ messages: APIMessage[] }> = await axios.get(`${this.apiBase}/channels/${channelID}`, this.baseConfig);
+		return response.data.messages.map(message => ({
+			...message,
+			time: new Date(message.time)
+		}));
+	}
+
+	public async createMessage(data: Pick<APIMessage, 'content' | 'channelID'>): Promise<ProcessedAPIMessage> {
+		const response: AxiosResponse<{ message: APIMessage }> = await axios.post(`${this.apiBase}/channels/${data.channelID}/messages`, { content: data.content }, this.baseConfig);
+		return {
+			...response.data.message,
+			time: new Date(response.data.message.time)
+		};
+	}
+
+	public async deleteMessage(data: GetMessageData): Promise<void> {
+		await axios.delete(`${this.apiBase}/channels/${data.channelID}/messages/${data.messageID}`, this.baseConfig);
 	}
 }

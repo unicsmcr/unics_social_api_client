@@ -40,6 +40,11 @@ export interface EventCreationData {
 
 export type EventEditData = { id: string } & Partial<EventCreationData>;
 
+export interface GetMessageData {
+	channelID: string;
+	messageID: string;
+}
+
 export interface APIAuthenticateResponse {
 	token: string;
 }
@@ -78,4 +83,20 @@ export interface ProcessedAPIEvent {
 	description: string;
 	external: string;
 	channelID: string;
+}
+
+export interface APIMessage {
+	id: string;
+	channelID: string;
+	authorID: string;
+	content: string;
+	time: string;
+}
+
+export interface ProcessedAPIMessage {
+	id: string;
+	channelID: string;
+	authorID: string;
+	content: string;
+	time: Date;
 }
