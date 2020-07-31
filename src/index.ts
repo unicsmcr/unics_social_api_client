@@ -1,4 +1,4 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, ProfileData } from './types';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, ProfileData, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData } from './types';
 import axios, { AxiosResponse } from 'axios';
 
 export class APIClient {
@@ -17,6 +17,10 @@ export class APIClient {
 	private get baseConfig() {
 		return this.isAuthorized ? { headers: { Authorization: this.token } } : {};
 	}
+
+	/*
+		User Routes
+	*/
 
 	public register(data: RegisterData) {
 		return axios.post(`${this.apiBase}/register`, data, this.baseConfig);
@@ -44,5 +48,42 @@ export class APIClient {
 	public async editProfile(data: ProfileData): Promise<APIUser> {
 		const response: AxiosResponse<{ user: APIUser }> = await axios.put(`${this.apiBase}/users/@me/profile`, data, this.baseConfig);
 		return response.data.user;
+	}
+
+	/*
+		Event Routes
+	*/
+
+	public async getEvents(): Promise<ProcessedAPIEvent[]> {
+		const response: AxiosResponse<{ events: APIEvent[] }> = await axios.get(`${this.apiBase}/users/@me/profile`, this.baseConfig);
+		return response.data.events.map(event => ({
+			...event,
+			startTime: new Date(event.startTime),
+			endTime: new Date(event.endTime)
+		}));
+	}
+
+	public async createEvent(data: EventCreationData): Promise<ProcessedAPIEvent> {
+		if (data.startTime instanceof Date) data.startTime = data.startTime.toISOString();
+		if (data.endTime instanceof Date) data.startTime = data.endTime.toISOString();
+
+		const response: AxiosResponse<{ event: APIEvent }> = await axios.post(`${this.apiBase}/events`, data, this.baseConfig);
+		return {
+			...response.data.event,
+			startTime: new Date(response.data.event.startTime),
+			endTime: new Date(response.data.event.endTime)
+		};
+	}
+
+	public async editEvent(data: EventEditData): Promise<ProcessedAPIEvent> {
+		if (data.startTime instanceof Date) data.startTime = data.startTime.toISOString();
+		if (data.endTime instanceof Date) data.startTime = data.endTime.toISOString();
+
+		const response: AxiosResponse<{ event: APIEvent }> = await axios.patch(`${this.apiBase}/events/${data.id}`, data, this.baseConfig);
+		return {
+			...response.data.event,
+			startTime: new Date(response.data.event.startTime),
+			endTime: new Date(response.data.event.endTime)
+		};
 	}
 }

@@ -30,6 +30,16 @@ export interface ProfileData {
 	twitter?: string;
 }
 
+export interface EventCreationData {
+	title: string;
+	startTime: string | Date;
+	endTime: string | Date;
+	description: string;
+	external: string;
+}
+
+export type EventEditData = { id: string } & Partial<EventCreationData>;
+
 export interface APIAuthenticateResponse {
 	token: string;
 }
@@ -48,4 +58,24 @@ export interface APIUser {
 		facebook?: string;
 		twitter?: string;
 	};
+}
+
+export interface APIEvent {
+	id: string;
+	title: string;
+	startTime: string;
+	endTime: string;
+	description: string;
+	external: string;
+	channelID: string;
+}
+
+export interface ProcessedAPIEvent {
+	id: string;
+	title: string;
+	startTime: Date;
+	endTime: Date;
+	description: string;
+	external: string;
+	channelID: string;
 }
