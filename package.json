@@ -59,5 +59,8 @@
     "tsConfig": "tsconfig.jest.json"
    }
   }
+ },
+ "dependencies": {
+  "axios": "^0.19.2"
  }
 }
