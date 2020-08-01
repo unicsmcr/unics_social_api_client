@@ -1,6 +1,10 @@
+import { APIMessage } from '.';
+
 export enum GatewayPacketType {
 	Identify = 'IDENTIFY',
-	Hello = 'HELLO'
+	Hello = 'HELLO',
+	MessageCreate = 'MESSAGE_CREATE',
+	MessageDelete = 'MESSAGE_DELETE'
 }
 
 export interface GatewayPacket {
@@ -17,4 +21,19 @@ export interface IdentifyGatewayPacket extends GatewayPacket {
 
 export interface HelloGatewayPacket extends GatewayPacket {
 	type: GatewayPacketType.Hello;
+}
+
+export interface MessageCreateGatewayPacket extends GatewayPacket {
+	type: GatewayPacketType.MessageCreate;
+	data: {
+		message: APIMessage;
+	};
+}
+
+export interface MessageDeleteGatewayPacket extends GatewayPacket {
+	type: GatewayPacketType.MessageDelete;
+	data: {
+		messageID: string;
+		channelID: string;
+	};
 }

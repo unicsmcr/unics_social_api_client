@@ -37,6 +37,18 @@ api.gateway.on(GatewayPacketType.Hello, async () => {
 	});
 });
 
+// Event listener for whenever a message is created in a channel that the user has access to
+api.gateway.on(GatewayPacketType.MessageCreate, async data => {
+	const { message } = data;
+	console.log(`${message.authorID} sent ${message.content} in ${message.channelID}`);
+});
+
+// Event listener for whenever a message is deleted in a channel that the user has access to
+api.gateway.on(GatewayPacketType.MessageDelete, async data => {
+	const { channelID, messageID } = data;
+	console.log(`${messageID} was deleted in ${channelID}`);
+});
+
 api.gateway.on('reconnecting', () => {
 	alert('Connection dropped, attempting to reconnect.');
 });
