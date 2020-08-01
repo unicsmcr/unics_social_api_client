@@ -1,6 +1,6 @@
 export enum GatewayPacketType {
-	Identify,
-	Hello
+	Identify = 'IDENTIFY',
+	Hello = 'HELLO'
 }
 
 export interface GatewayPacket {

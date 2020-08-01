@@ -45,7 +45,7 @@ export class GatewayClient extends EventEmitter {
 		}
 		try {
 			const packet: GatewayPacket = JSON.parse(event.data);
-			this.emit(packet.type.toString(), packet.data);
+			this.emit(packet.type, packet.data);
 		} catch (error) {
 			this.emit('error', error);
 		}
