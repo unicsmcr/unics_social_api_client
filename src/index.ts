@@ -1,13 +1,18 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, ProfileData, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage } from './types';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, ProfileData, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage } from './types/api';
 import axios, { AxiosResponse } from 'axios';
+import { GatewayClient } from './gateway';
+export * from './types/';
 
 export class APIClient {
 	public token?: string;
-	private readonly apiBase: string;
+	public readonly apiBase: string;
+	public gateway?: GatewayClient;
+	public readonly useWss: boolean;
 
-	public constructor(data: { token?: string; apiBase: string }) {
+	public constructor(data: { token?: string; apiBase: string; useWss?: boolean }) {
 		this.token = data.token;
 		this.apiBase = data.apiBase;
+		this.useWss = data.useWss ?? false;
 	}
 
 	public get isAuthorized() {
@@ -16,6 +21,15 @@ export class APIClient {
 
 	private get baseConfig() {
 		return this.isAuthorized ? { headers: { Authorization: this.token } } : {};
+	}
+
+	/*
+		Gateway
+	*/
+
+	public initGateway(useWss = this.apiBase.startsWith('https')) {
+		if (this.gateway) return;
+		this.gateway = new GatewayClient(this, useWss);
 	}
 
 	/*
