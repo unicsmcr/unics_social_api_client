@@ -1,22 +1,48 @@
 import WebSocket from 'ws';
 import { APIClient } from '.';
 import { EventEmitter } from 'events';
-import { GatewayPacket, IdentifyGatewayPacket, GatewayPacketType } from './types/gateway';
+import { GatewayPacket, IdentifyGatewayPacket, GatewayPacketType, JoinDiscoveryQueuePacket, QueueOptions, LeaveDiscoveryQueuePacket } from './types/gateway';
 
 export class GatewayClient extends EventEmitter {
 	private ws!: WebSocket;
 	private readonly apiClient: APIClient;
 	private readonly useWss: boolean;
+	private _inDiscoveryQueue: boolean;
 
 	public constructor(apiClient: APIClient, useWss = false) {
 		super();
 		this.apiClient = apiClient;
 		this.useWss = useWss;
+		this._inDiscoveryQueue = false;
 		this.connect();
 	}
 
 	public get status() {
 		return this.ws.readyState;
+	}
+
+	public get inDiscoveryQueue() {
+		return this._inDiscoveryQueue;
+	}
+
+	public async joinDiscoveryQueue(options: QueueOptions) {
+		await this.send<JoinDiscoveryQueuePacket>(
+			{
+				type: GatewayPacketType.JoinDiscoveryQueue,
+				data: {
+					options
+				}
+			}
+		);
+		this._inDiscoveryQueue = true;
+	}
+
+	public async leaveDiscoveryQueue() {
+		await this.send<LeaveDiscoveryQueuePacket>(
+			{
+				type: GatewayPacketType.LeaveDiscoveryQueue
+			}
+		);
 	}
 
 	private connect() {
@@ -26,7 +52,7 @@ export class GatewayClient extends EventEmitter {
 		this.ws.onclose = this.onClose.bind(this);
 	}
 
-	private async send(packet: GatewayPacket) {
+	private async send<T extends GatewayPacket>(packet: T) {
 		return new Promise((resolve, reject) => {
 			this.ws.send(JSON.stringify(packet), err => err ? reject(err) : resolve());
 		});

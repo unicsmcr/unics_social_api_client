@@ -1,4 +1,4 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, ProfileData, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage } from './types/api';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, ProfileData, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage, APIDMChannel } from './types/api';
 import axios, { AxiosResponse } from 'axios';
 import { GatewayClient } from './gateway';
 export * from './types/';
@@ -53,6 +53,11 @@ export class APIClient {
 	public async getUser(id: string): Promise<APIUser> {
 		const response: AxiosResponse<{ user: APIUser }> = await axios.get(`${this.apiBase}/users/${id}`, this.baseConfig);
 		return response.data.user;
+	}
+
+	public async createUserDM(userID: string): Promise<APIDMChannel> {
+		const response: AxiosResponse<{ channel: APIDMChannel }> = await axios.post(`${this.apiBase}/users/${userID}/channel`, this.baseConfig);
+		return response.data.channel;
 	}
 
 	public getMe(): Promise<APIUser> {

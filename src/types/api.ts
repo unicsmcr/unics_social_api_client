@@ -100,3 +100,17 @@ export interface ProcessedAPIMessage {
 	content: string;
 	time: Date;
 }
+
+export interface APIChannel {
+	id: string;
+}
+
+export interface APIEventChannel extends APIChannel {
+	event: APIEvent;
+	type: 'event';
+}
+
+export interface APIDMChannel extends APIChannel {
+	users: string[];
+	type: 'dm';
+}
