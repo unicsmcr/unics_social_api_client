@@ -22,7 +22,7 @@ export class GatewayClient extends EventEmitter {
 	}
 
 	public get inDiscoveryQueue() {
-		return this._inDiscoveryQueue;
+		return this.status === this.ws.OPEN && this._inDiscoveryQueue;
 	}
 
 	public async joinDiscoveryQueue(options: QueueOptions) {
