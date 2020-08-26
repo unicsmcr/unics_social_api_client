@@ -6,6 +6,54 @@
 
 A TypeScript API Client for UniCS's networking platform for Computer Sciences students at the University of Manchester.
 
+## Example
+
+```ts
+import { APIClient, GatewayPacketType } from '@unicsmcr/unics_social_api_client';
+
+const api = new APIClient();
+
+await api.authenticate({
+	email: prompt('Email'),
+	password: prompt('Password')
+});
+
+api.initGateway();
+
+// It's bad practice to have an event handler that returns a Promise, but this is just for demo purposes
+api.gateway.on(GatewayPacketType.Hello, async () => {
+	alert('Connected to gateway!');
+
+	// Fetch the list of events
+	const events = await api.getEvents();
+
+	// Get the user/profile information for the authenticated user
+	const me = await api.getMe();
+
+	// Send a message to the channel of the first-listed event
+	await api.createMessage({
+		content: `Hi! I'm ${me.forename} :)`,
+		channelID: events[0].channelID
+	});
+});
+
+// Event listener for whenever a message is created in a channel that the user has access to
+api.gateway.on(GatewayPacketType.MessageCreate, async data => {
+	const { message } = data;
+	console.log(`${message.authorID} sent ${message.content} in ${message.channelID}`);
+});
+
+// Event listener for whenever a message is deleted in a channel that the user has access to
+api.gateway.on(GatewayPacketType.MessageDelete, async data => {
+	const { channelID, messageID } = data;
+	console.log(`${messageID} was deleted in ${channelID}`);
+});
+
+api.gateway.on('reconnecting', () => {
+	alert('Connection dropped, attempting to reconnect.');
+});
+```
+
 ## License
 
 > Copyright 2020 UniCS
