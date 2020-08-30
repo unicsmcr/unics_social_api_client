@@ -1,6 +1,7 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, ProfileData, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage, APIDMChannel } from './types/api';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage, APIDMChannel, ProfileUploadData } from './types/api';
 import axios, { AxiosResponse } from 'axios';
 import { GatewayClient } from './gateway';
+import FormData from 'form-data';
 export * from './types/';
 
 export class APIClient {
@@ -64,8 +65,21 @@ export class APIClient {
 		return this.getUser('@me');
 	}
 
-	public async editProfile(data: ProfileData): Promise<APIUser> {
-		const response: AxiosResponse<{ user: APIUser }> = await axios.put(`${this.apiBase}/users/@me/profile`, data, this.baseConfig);
+	public async editProfile(data: ProfileUploadData): Promise<APIUser> {
+		const formData = new FormData();
+		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter'];
+
+		for (const key of props) {
+			if (data.hasOwnProperty(key)) formData.append(key, data[key]);
+		}
+
+		const response: AxiosResponse<{ user: APIUser }> = await axios.put(`${this.apiBase}/users/@me/profile`, formData, {
+			...this.baseConfig,
+			headers: {
+				...this.baseConfig.headers,
+				'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`
+			}
+		});
 		return response.data.user;
 	}
 

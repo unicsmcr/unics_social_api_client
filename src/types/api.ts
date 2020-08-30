@@ -21,10 +21,19 @@ export interface AuthenticateData {
 	password: string;
 }
 
+export interface ProfileUploadData {
+	course?: string;
+	yearOfStudy?: string;
+	avatar?: File|'false';
+	instagram?: string;
+	facebook?: string;
+	twitter?: string;
+}
+
 export interface ProfileData {
 	course?: string;
 	yearOfStudy?: string;
-	profilePicture?: string;
+	avatar?: string;
 	instagram?: string;
 	facebook?: string;
 	twitter?: string;
@@ -55,14 +64,7 @@ export interface APIUser {
 	surname: string;
 	accountStatus: APIAccountStatus;
 	accountType: APIAccountType;
-	profile?: {
-		course: string;
-		yearOfStudy: number;
-		profilePicture?: string;
-		instagram?: string;
-		facebook?: string;
-		twitter?: string;
-	};
+	profile?: ProfileData;
 }
 
 export interface APIEvent {
