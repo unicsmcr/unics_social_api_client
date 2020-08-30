@@ -70,14 +70,19 @@ export class APIClient {
 		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter'];
 
 		for (const key of props) {
-			if (data.hasOwnProperty(key)) formData.append(key, data[key]);
+			if (data.hasOwnProperty(key)) formData.append(key, (key === 'avatar' && typeof data[key] === 'boolean') ? String(data[key]) : data[key]);
 		}
+
+		/*
+			In Node-land, formData.getBoundary is a defined function, and in browser this is undefined and not really required.
+		*/
+		const contentTypeExtra = (formData.getBoundary as any) ? ` boundary=${formData.getBoundary()}` : '';
 
 		const response: AxiosResponse<{ user: APIUser }> = await axios.put(`${this.apiBase}/users/@me/profile`, formData, {
 			...this.baseConfig,
 			headers: {
 				...this.baseConfig.headers,
-				'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`
+				'Content-Type': `multipart/form-data;${contentTypeExtra}`
 			}
 		});
 		return response.data.user;

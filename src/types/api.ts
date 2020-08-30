@@ -24,7 +24,7 @@ export interface AuthenticateData {
 export interface ProfileUploadData {
 	course?: string;
 	yearOfStudy?: string;
-	avatar?: File|'false';
+	avatar?: File|boolean;
 	instagram?: string;
 	facebook?: string;
 	twitter?: string;
