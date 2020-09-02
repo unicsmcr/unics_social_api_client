@@ -1,10 +1,12 @@
-import WebSocket from 'ws';
+import NodeWebSocket from 'ws';
 import { APIClient } from '.';
 import { EventEmitter } from 'events';
-import { GatewayPacket, IdentifyGatewayPacket, GatewayPacketType, JoinDiscoveryQueuePacket, QueueOptions, LeaveDiscoveryQueuePacket } from './types/gateway';
+import { GatewayPacket, IdentifyGatewayPacket, GatewayPacketType, JoinDiscoveryQueuePacket, QueueOptions, LeaveDiscoveryQueuePacket, PongGatewayPacket } from './types/gateway';
+
+const isBrowser = Boolean(typeof window !== 'undefined' && window.WebSocket);
 
 export class GatewayClient extends EventEmitter {
-	private ws!: WebSocket;
+	private ws!: WebSocket|NodeWebSocket;
 	private readonly apiClient: APIClient;
 	private readonly useWss: boolean;
 	private _inDiscoveryQueue: boolean;
@@ -15,6 +17,15 @@ export class GatewayClient extends EventEmitter {
 		this.useWss = useWss;
 		this._inDiscoveryQueue = false;
 		this.connect();
+
+		this.on(GatewayPacketType.Ping, () => {
+			this.send<PongGatewayPacket>({
+				type: GatewayPacketType.Pong,
+				data: {
+					timestamp: Date.now()
+				}
+			}).catch(err => this.emit('error', err));
+		});
 	}
 
 	public get status() {
@@ -46,7 +57,8 @@ export class GatewayClient extends EventEmitter {
 	}
 
 	private connect() {
-		this.ws = new WebSocket(`${this.useWss ? 'wss' : 'ws'}//${this.apiClient.apiBase.replace(/^https?/, '')}/gateway`);
+		const WebSocketClass = isBrowser ? window.WebSocket : NodeWebSocket;
+		this.ws = new WebSocketClass(`${this.useWss ? 'wss' : 'ws'}${this.apiClient.apiBase.replace(/^https?/, '')}/gateway`);
 		this.ws.onopen = this.onOpen.bind(this);
 		this.ws.onmessage = this.onMessage.bind(this);
 		this.ws.onclose = this.onClose.bind(this);
@@ -54,11 +66,15 @@ export class GatewayClient extends EventEmitter {
 
 	private async send<T extends GatewayPacket>(packet: T) {
 		return new Promise((resolve, reject) => {
-			this.ws.send(JSON.stringify(packet), err => err ? reject(err) : resolve());
+			if (isBrowser) {
+				this.ws.send(JSON.stringify(packet));
+			} else {
+				(this.ws as NodeWebSocket).send(JSON.stringify(packet), err => err ? reject(err) : resolve());
+			}
 		});
 	}
 
-	private onMessage(event: WebSocket.MessageEvent) {
+	private onMessage(event: NodeWebSocket.MessageEvent) {
 		if (typeof event.data !== 'string') {
 			if (Buffer.isBuffer(event.data)) {
 				event.data = event.data.toString();
@@ -77,7 +93,7 @@ export class GatewayClient extends EventEmitter {
 		}
 	}
 
-	private onClose(event: WebSocket.CloseEvent) {
+	private onClose(event: NodeWebSocket.CloseEvent) {
 		this.emit('reconnecting', event);
 		this.connect();
 	}
