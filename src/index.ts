@@ -41,8 +41,14 @@ export class APIClient {
 		return axios.post(`${this.apiBase}/register`, data, this.baseConfig);
 	}
 
-	public verifyEmail(confirmationId: string) {
-		return axios.get(`${this.apiBase}/verify?confirmationId=${confirmationId}`, this.baseConfig);
+	public verifyEmail(token: string) {
+		return axios.get(`${this.apiBase}/verify`, {
+			...this.baseConfig,
+			headers: {
+				...this.baseConfig.headers,
+				Authorization: token
+			}
+		});
 	}
 
 	public async authenticate(data: AuthenticateData) {
