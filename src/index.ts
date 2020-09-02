@@ -103,7 +103,7 @@ export class APIClient {
 
 	public async createEvent(data: EventCreationData): Promise<ProcessedAPIEvent> {
 		if (data.startTime instanceof Date) data.startTime = data.startTime.toISOString();
-		if (data.endTime instanceof Date) data.startTime = data.endTime.toISOString();
+		if (data.endTime instanceof Date) data.endTime = data.endTime.toISOString();
 		const formData = new FormData();
 
 		for (const [key, value] of Object.entries(data)) {
@@ -115,7 +115,7 @@ export class APIClient {
 		*/
 		const contentTypeExtra = (formData.getBoundary as any) ? ` boundary=${formData.getBoundary()}` : '';
 
-		const response: AxiosResponse<{ event: APIEvent }> = await axios.put(`${this.apiBase}/events`, formData, {
+		const response: AxiosResponse<{ event: APIEvent }> = await axios.post(`${this.apiBase}/events`, formData, {
 			...this.baseConfig,
 			headers: {
 				...this.baseConfig.headers,
