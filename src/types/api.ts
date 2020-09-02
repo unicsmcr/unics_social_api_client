@@ -75,6 +75,7 @@ export interface APIEvent {
 	endTime: string;
 	description: string;
 	external: string;
+	image: boolean;
 	channelID: string;
 }
 
