@@ -45,6 +45,7 @@ export interface EventCreationData {
 	endTime: string | Date;
 	description: string;
 	external: string;
+	image?: File|boolean;
 }
 
 export type EventEditData = { id: string } & Partial<EventCreationData>;

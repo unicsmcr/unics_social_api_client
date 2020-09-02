@@ -104,8 +104,24 @@ export class APIClient {
 	public async createEvent(data: EventCreationData): Promise<ProcessedAPIEvent> {
 		if (data.startTime instanceof Date) data.startTime = data.startTime.toISOString();
 		if (data.endTime instanceof Date) data.startTime = data.endTime.toISOString();
+		const formData = new FormData();
 
-		const response: AxiosResponse<{ event: APIEvent }> = await axios.post(`${this.apiBase}/events`, data, this.baseConfig);
+		for (const [key, value] of Object.entries(data)) {
+			formData.append(key, (key === 'image' && typeof value === 'boolean') ? String(value) : value);
+		}
+
+		/*
+			In Node-land, formData.getBoundary is a defined function, and in browser this is undefined and not really required.
+		*/
+		const contentTypeExtra = (formData.getBoundary as any) ? ` boundary=${formData.getBoundary()}` : '';
+
+		const response: AxiosResponse<{ event: APIEvent }> = await axios.put(`${this.apiBase}/events`, formData, {
+			...this.baseConfig,
+			headers: {
+				...this.baseConfig.headers,
+				'Content-Type': `multipart/form-data;${contentTypeExtra}`
+			}
+		});
 		return {
 			...response.data.event,
 			startTime: new Date(response.data.event.startTime),
@@ -116,8 +132,24 @@ export class APIClient {
 	public async editEvent(data: EventEditData): Promise<ProcessedAPIEvent> {
 		if (data.startTime instanceof Date) data.startTime = data.startTime.toISOString();
 		if (data.endTime instanceof Date) data.startTime = data.endTime.toISOString();
+		const formData = new FormData();
 
-		const response: AxiosResponse<{ event: APIEvent }> = await axios.patch(`${this.apiBase}/events/${data.id}`, data, this.baseConfig);
+		for (const [key, value] of Object.entries(data)) {
+			formData.append(key, (key === 'image' && typeof value === 'boolean') ? String(value) : value);
+		}
+
+		/*
+			In Node-land, formData.getBoundary is a defined function, and in browser this is undefined and not really required.
+		*/
+		const contentTypeExtra = (formData.getBoundary as any) ? ` boundary=${formData.getBoundary()}` : '';
+
+		const response: AxiosResponse<{ event: APIEvent }> = await axios.patch(`${this.apiBase}/events/${data.id}`, formData, {
+			...this.baseConfig,
+			headers: {
+				...this.baseConfig.headers,
+				'Content-Type': `multipart/form-data;${contentTypeExtra}`
+			}
+		});
 		return {
 			...response.data.event,
 			startTime: new Date(response.data.event.startTime),
