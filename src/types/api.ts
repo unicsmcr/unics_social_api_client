@@ -22,8 +22,8 @@ export interface AuthenticateData {
 }
 
 export interface ProfileUploadData {
-	course?: string;
-	yearOfStudy?: string;
+	course: Course;
+	yearOfStudy: Year;
 	avatar?: File|boolean;
 	instagram?: string;
 	facebook?: string;
@@ -31,12 +31,31 @@ export interface ProfileUploadData {
 }
 
 export interface ProfileData {
-	course?: string;
-	yearOfStudy?: string;
+	course: Course;
+	yearOfStudy: Year;
 	avatar?: string;
 	instagram?: string;
 	facebook?: string;
 	twitter?: string;
+}
+
+export enum Course {
+	ARTIFICIAL_INTELLIGENCE = 'Artificial Intelligence',
+	COMPUTER_SCIENCE_AND_MATHEMATICS = 'Computer Science and Mathematics',
+	COMPUTER_SCIENCE = 'Computer Science',
+	HUMAN_COMPUTER_INTERACTION = 'Human Computer Interaction',
+	COMPUTER_SYSTEMS_ENGINEERING = 'Computer Systems Engineering',
+	SOFTWARE_ENGINEERING = 'Software Engineering'
+}
+
+export enum Year {
+	ONE = 'First Year',
+	TWO = 'Second Year',
+	THREE = 'Final Year Bachelors',
+	FOUNDATION = 'Foundation Year',
+	MASTERS = 'Masters Year',
+	INDUSTRIAL = 'Industrial Year',
+	PHD = 'PhD Student'
 }
 
 export interface EventCreationData {
