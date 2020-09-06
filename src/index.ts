@@ -1,4 +1,4 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage, APIDMChannel, ProfileUploadData } from './types/api';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIPrivateUser, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage, APIDMChannel, ProfileUploadData } from './types/api';
 import axios, { AxiosResponse } from 'axios';
 import { GatewayClient } from './gateway';
 import FormData from 'form-data';
@@ -57,8 +57,9 @@ export class APIClient {
 		return this.token;
 	}
 
-	public async getUser(id: string): Promise<APIUser> {
-		const response: AxiosResponse<{ user: APIUser }> = await axios.get(`${this.apiBase}/users/${id}`, this.baseConfig);
+	public async getUser(id: string): Promise<APIPrivateUser> {
+		const response: AxiosResponse<{ user: APIPrivateUser }> = await axios.get(`${this.apiBase}/users/${id}`, this.baseConfig);
+		console.log(response.data.user);
 		return response.data.user;
 	}
 
