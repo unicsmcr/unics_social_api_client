@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
-import { AxiosResponse, axios } from 'axios';
 import { APIClient as apiClient } from '../';
 import { validData, invalidEmail, invalidPassword } from './fixtures/registerData';
+import axios, { AxiosResponse } from 'axios';
 
 const mock = new MockAdapter(axios);
 
