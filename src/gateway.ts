@@ -5,17 +5,24 @@ import { GatewayPacket, IdentifyGatewayPacket, GatewayPacketType, JoinDiscoveryQ
 
 const isBrowser = Boolean(typeof window !== 'undefined' && window.WebSocket);
 
+enum State {
+	Destroyed,
+	Active
+}
+
 export class GatewayClient extends EventEmitter {
 	private ws!: WebSocket|NodeWebSocket;
 	private readonly apiClient: APIClient;
 	private readonly useWss: boolean;
 	private _inDiscoveryQueue: boolean;
+	private lifetimeState: State;
 
 	public constructor(apiClient: APIClient, useWss = false) {
 		super();
 		this.apiClient = apiClient;
 		this.useWss = useWss;
 		this._inDiscoveryQueue = false;
+		this.lifetimeState = State.Active;
 		this.connect();
 
 		this.on(GatewayPacketType.Ping, () => {
@@ -26,6 +33,11 @@ export class GatewayClient extends EventEmitter {
 				}
 			}).catch(err => this.emit('error', err));
 		});
+	}
+
+	public destroy() {
+		this.ws.close();
+		this.lifetimeState = State.Destroyed;
 	}
 
 	public get status() {
@@ -94,8 +106,12 @@ export class GatewayClient extends EventEmitter {
 	}
 
 	private onClose(event: NodeWebSocket.CloseEvent) {
-		this.emit('reconnecting', event);
-		this.connect();
+		if (this.lifetimeState === State.Destroyed) {
+			this.emit('disconnected');
+		} else {
+			this.emit('reconnecting', event);
+			setTimeout(() => this.connect(), 3e3);
+		}
 	}
 
 	private onOpen() {

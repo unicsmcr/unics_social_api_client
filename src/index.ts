@@ -16,6 +16,14 @@ export class APIClient {
 		this.useWss = data.useWss ?? false;
 	}
 
+	public destroy() {
+		this.token = undefined;
+		if (this.gateway) {
+			this.gateway.destroy();
+			this.gateway = undefined;
+		}
+	}
+
 	public get isAuthorized() {
 		return Boolean(this.token);
 	}
