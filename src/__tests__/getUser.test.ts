@@ -11,12 +11,6 @@ afterEach(() => {
 
 const apiClientInit = new apiClient.APIClient({ apiBase: 'unics-social' });
 
-/* mock.onGet('unics-social/users/').reply(200, {
-	status: 200,
-	error: '',
-	users: fixtures
-}); */
-
 test('getUser(): fetches users correctly', async () => {
 	for (const fixture of fixtures) {
 		mock.onGet(`unics-social/users/${fixture.id}`).reply(200, {

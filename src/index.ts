@@ -52,18 +52,10 @@ export class APIClient {
 	}
 
 	public async authenticate(data: AuthenticateData) {
-		const response: AxiosResponse<{ status: APIAuthenticateResponse }> = await axios.post(`${this.apiBase}/authenticate`, data, this.baseConfig);
-		this.token = response.data.status.token;
+		const response: AxiosResponse<APIAuthenticateResponse> = await axios.post(`${this.apiBase}/authenticate`, data, this.baseConfig);
+		this.token = response.data.token;
 		return this.token;
 	}
-	/*
-	public async authenticate(data: AuthenticateData): Promise<APIAuthenticateResponse> {
-		const response: AxiosResponse<{ auth_token: APIAuthenticateResponse }> = await axios.post(`${this.apiBase}/authenticate`, data, this.baseConfig);
-		console.log(response);
-		this.token = response.data.auth_token.token;
-		return response.data.auth_token;
-	}
-	*/
 
 	public async getUser(id: string): Promise<APIUser> {
 		const response: AxiosResponse<{ user: APIUser }> = await axios.get(`${this.apiBase}/users/${id}`, this.baseConfig);
@@ -75,8 +67,9 @@ export class APIClient {
 		return response.data.channel;
 	}
 
-	public getMe(): Promise<APIUser> {
-		return this.getUser('@me');
+	public async getMe(): Promise<APIPrivateUser> {
+		const response: AxiosResponse<{ user: APIPrivateUser }> = await axios.get(`${this.apiBase}/users/@me`, this.baseConfig);
+		return response.data.user;
 	}
 
 	public async editProfile(data: ProfileUploadData): Promise<APIUser> {

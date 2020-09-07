@@ -1,5 +1,5 @@
 import { AuthenticateData } from '../../types/api';
-export const valid_data: AuthenticateData[] = [
+export const validData: AuthenticateData[] = [
 	{
 		email: 'john.doe@student.manchester.ac.uk',
 		password: 'john123'
@@ -10,10 +10,11 @@ export const valid_data: AuthenticateData[] = [
 	}
 ];
 
-export const invalid_data: AuthenticateData[] = [
+export const invalidData: AuthenticateData[] = [
 	{
 		email: 'wrong.entry@wrong.com',
 		password: 'wrong123'
 	}
 ];
 
+export const token = 'eyJHbGci0eyJpZCI6IjBiNjQfPQ6l94-Py_tpKL';
