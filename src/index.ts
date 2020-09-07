@@ -38,7 +38,8 @@ export class APIClient {
 	*/
 
 	public register(data: RegisterData) {
-		return axios.post(`${this.apiBase}/register`, data, this.baseConfig);
+		const res = axios.post(`${this.apiBase}/register`, data, this.baseConfig);
+		return res;
 	}
 
 	public verifyEmail(token: string) {
