@@ -87,6 +87,10 @@ export interface APIUser {
 	profile?: ProfileData;
 }
 
+export interface APIPrivateUser extends APIUser {
+	email: string;
+}
+
 export interface APIEvent {
 	id: string;
 	title: string;
