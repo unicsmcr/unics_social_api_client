@@ -107,8 +107,17 @@ export class GatewayClient extends EventEmitter {
 
 	private onClose(event: NodeWebSocket.CloseEvent) {
 		if (this.lifetimeState === State.Destroyed) {
-			this.emit('disconnected');
+			/**
+			 * Emitted when the client has disconnected and will not attempt to reconnect as the gateway has been marked
+			 * as being destroyed. This only occurs when APIClient#destroy() is called.
+			 * @event GatewayClient#destroyed
+			 */
+			this.emit('destroyed');
 		} else {
+			/**
+			 * Emitted when the client will try to reconnect to the gateway (with a 3 second backoff)
+			 * @event GatewayClient#reconnecting
+			 */
 			this.emit('reconnecting', event);
 			setTimeout(() => this.connect(), 3e3);
 		}
