@@ -16,6 +16,7 @@ export class GatewayClient extends EventEmitter {
 	private readonly useWss: boolean;
 	private _inDiscoveryQueue: boolean;
 	private lifetimeState: State;
+	private connectTimeout?: NodeJS.Timeout;
 
 	public constructor(apiClient: APIClient, useWss = false) {
 		super();
@@ -37,6 +38,7 @@ export class GatewayClient extends EventEmitter {
 
 	public destroy() {
 		this.lifetimeState = State.Destroyed;
+		if (this.connectTimeout) clearTimeout(this.connectTimeout);
 		this.ws.close();
 	}
 
@@ -119,7 +121,7 @@ export class GatewayClient extends EventEmitter {
 			 * @event GatewayClient#reconnecting
 			 */
 			this.emit('reconnecting', event);
-			setTimeout(() => this.connect(), 3e3);
+			this.connectTimeout = setTimeout(() => this.connect(), 3e3);
 		}
 	}
 
