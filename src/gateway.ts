@@ -36,8 +36,8 @@ export class GatewayClient extends EventEmitter {
 	}
 
 	public destroy() {
-		this.ws.close();
 		this.lifetimeState = State.Destroyed;
+		this.ws.close();
 	}
 
 	public get status() {
