@@ -63,7 +63,8 @@
    }
   },
   "collectCoverageFrom": [
-   "src/**/*.ts"
+   "src/**/*.ts",
+   "!src/__tests__/**/*"
   ]
  },
  "dependencies": {
