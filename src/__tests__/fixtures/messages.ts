@@ -70,3 +70,15 @@ export const invalidPickMessages = [
 		content: ''
 	}
 ];
+
+/* Delete Message Test GetMessageData */
+
+export const deleteMessage = {
+	channelID: '1',
+	messageID: '1000'
+};
+
+export const invalidDeleteMessage = {
+	channelID: '1',
+	messageID: '1009'
+};

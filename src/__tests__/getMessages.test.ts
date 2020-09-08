@@ -22,7 +22,7 @@ test('getMessage(): 0 messages gives empty list', async () => {
 });
 
 
-test('getMessage(): 1 message', async () => {
+test('getMessages(): 1 message', async () => {
 	mock.onGet('unics-social/channels/2').reply(200, {
 		status: 200,
 		error: '',
@@ -36,7 +36,7 @@ test('getMessage(): 1 message', async () => {
 	expect(messages).toEqual([messageCheck]);
 });
 
-test('getMessage(): more than 1 message fetched correctly', async () => {
+test('getMessages(): more than 1 message fetched correctly', async () => {
 	mock.onGet('unics-social/channels/1').reply(200, {
 		status: 200,
 		error: '',
@@ -50,7 +50,7 @@ test('getMessage(): more than 1 message fetched correctly', async () => {
 	expect(messages).toEqual(messagesCheck);
 });
 
-test('getMessage(): throws when API response has error code', async () => {
+test('getMessages(): throws when API response has error code', async () => {
 	mock.onGet('unics-social/channels/4').reply(404, {
 		status: 404,
 		error: 'Message not found'
