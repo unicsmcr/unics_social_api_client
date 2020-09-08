@@ -20,6 +20,13 @@ export const messages: APIMessage[] = [
 		authorID: '1a2b3c4d5e',
 		content: 'Quarantining is the worst!',
 		time: 'September 8, 2020 09:46:10'
+	},
+	{
+		id: '1100',
+		channelID: '2',
+		authorID: '1a2b3c4d5e',
+		content: 'I have more than one friend!',
+		time: 'September 9, 2020 20:00:15'
 	}
 ];
 
