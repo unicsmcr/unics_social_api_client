@@ -2,7 +2,6 @@ import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import * as apiClient from '../';
 import { messages as fixtures, invalidMessages } from './fixtures/messages';
-// import { APIPrivateMessage } from '../types/api' 
 
 const mock = new MockAdapter(axios);
 

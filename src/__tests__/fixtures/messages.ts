@@ -46,8 +46,27 @@ export const invalidMessages = [
 	},
 	{
 		id: '4040404',
+		channelID: '',
 		authorID: '123456',
 		content: 'Message content',
 		time: 'September 8, 2020 09:46:10'
+	}
+];
+
+/* Create Message Test Pick(ed) Type */
+
+export const pickMessage = {
+	channelID: '1',
+	content: 'Quarantining is the worst!'
+};
+
+export const invalidPickMessages = [
+	{
+		channelID: '',
+		content: 'Invalid Pick Message'
+	},
+	{
+		channelID: '1',
+		content: ''
 	}
 ];
