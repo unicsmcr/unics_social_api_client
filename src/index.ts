@@ -1,4 +1,4 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, EventCreationData, EventEditData, GetMessageData, APIMessage, APIDMChannel, ProfileUploadData, APIEventChannel, RawAPIEvent, RawAPIMessage } from './types/api';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, EventCreationData, EventEditData, GetMessageData, APIMessage, APIDMChannel, ProfileUploadData, APIEventChannel, RawAPIEvent, RawAPIMessage, RawAPIDMChannel, RawAPIEventChannel } from './types/api';
 import axios, { AxiosResponse } from 'axios';
 import { GatewayClient } from './gateway';
 import FormData from 'form-data';
@@ -176,13 +176,43 @@ export class APIClient {
 	*/
 
 	public async getChannels(): Promise<(APIDMChannel|APIEventChannel)[]> {
-		const response: AxiosResponse<{ channels: (APIDMChannel|APIEventChannel)[] }> = await axios.get(`${this.apiBase}/channels`, this.baseConfig);
-		return response.data.channels;
+		const response: AxiosResponse<{ channels: (RawAPIDMChannel|RawAPIEventChannel)[] }> = await axios.get(`${this.apiBase}/channels`, this.baseConfig);
+		return response.data.channels.map(channel => {
+			if (channel.type === 'dm') {
+				return {
+					...channel,
+					lastUpdated: new Date(channel.lastUpdated),
+					video: channel.video && {
+						...channel.video,
+						creationTime: new Date(channel.video.creationTime),
+						endTime: new Date(channel.video.endTime)
+					}
+				};
+			}
+			return {
+				...channel,
+				lastUpdated: new Date(channel.lastUpdated),
+				event: {
+					...channel.event,
+					startTime: new Date(channel.event.startTime),
+					endTime: new Date(channel.event.endTime)
+				}
+			};
+		});
 	}
 
 	public async createDMChannel(userID: string): Promise<APIDMChannel> {
-		const response: AxiosResponse<{ channel: APIDMChannel }> = await axios.post(`${this.apiBase}/users/${userID}/channel`, this.baseConfig);
-		return response.data.channel;
+		const response: AxiosResponse<{ channel: RawAPIDMChannel }> = await axios.post(`${this.apiBase}/users/${userID}/channel`, this.baseConfig);
+		const channel = response.data.channel;
+		return {
+			...channel,
+			lastUpdated: new Date(channel.lastUpdated),
+			video: channel.video && {
+				...channel.video,
+				creationTime: new Date(channel.video.creationTime),
+				endTime: new Date(channel.video.endTime)
+			}
+		};
 	}
 
 	/*

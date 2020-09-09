@@ -124,8 +124,19 @@ export interface APIMessage {
 	time: Date;
 }
 
+export interface RawAPIChannel {
+	id: string;
+	lastUpdated: string;
+}
+
 export interface APIChannel {
 	id: string;
+	lastUpdated: Date;
+}
+
+export interface RawAPIEventChannel extends RawAPIChannel {
+	event: RawAPIEvent;
+	type: 'event';
 }
 
 export interface APIEventChannel extends APIChannel {
@@ -133,7 +144,34 @@ export interface APIEventChannel extends APIChannel {
 	type: 'event';
 }
 
+export interface RawAPIVideoIntegration {
+	id: string;
+	creationTime: string;
+	endTime: string;
+	users?: {
+		id: string;
+		accessToken: string;
+	}[];
+}
+
+export interface APIVideoIntegration {
+	id: string;
+	creationTime: Date;
+	endTime: Date;
+	users?: {
+		id: string;
+		accessToken: string;
+	}[];
+}
+
+export interface RawAPIDMChannel extends RawAPIChannel {
+	users: string[];
+	type: 'dm';
+	video?: RawAPIVideoIntegration;
+}
+
 export interface APIDMChannel extends APIChannel {
 	users: string[];
 	type: 'dm';
+	video?: APIVideoIntegration;
 }
