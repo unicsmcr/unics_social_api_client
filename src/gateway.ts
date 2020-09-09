@@ -5,17 +5,25 @@ import { GatewayPacket, IdentifyGatewayPacket, GatewayPacketType, JoinDiscoveryQ
 
 const isBrowser = Boolean(typeof window !== 'undefined' && window.WebSocket);
 
+enum State {
+	Destroyed,
+	Active
+}
+
 export class GatewayClient extends EventEmitter {
 	private ws!: WebSocket|NodeWebSocket;
 	private readonly apiClient: APIClient;
 	private readonly useWss: boolean;
 	private _inDiscoveryQueue: boolean;
+	private lifetimeState: State;
+	private connectTimeout?: NodeJS.Timeout;
 
 	public constructor(apiClient: APIClient, useWss = false) {
 		super();
 		this.apiClient = apiClient;
 		this.useWss = useWss;
 		this._inDiscoveryQueue = false;
+		this.lifetimeState = State.Active;
 		this.connect();
 
 		this.on(GatewayPacketType.Ping, () => {
@@ -26,6 +34,12 @@ export class GatewayClient extends EventEmitter {
 				}
 			}).catch(err => this.emit('error', err));
 		});
+	}
+
+	public destroy() {
+		this.lifetimeState = State.Destroyed;
+		if (this.connectTimeout) clearTimeout(this.connectTimeout);
+		this.ws.close();
 	}
 
 	public get status() {
@@ -94,8 +108,21 @@ export class GatewayClient extends EventEmitter {
 	}
 
 	private onClose(event: NodeWebSocket.CloseEvent) {
-		this.emit('reconnecting', event);
-		this.connect();
+		if (this.lifetimeState === State.Destroyed) {
+			/**
+			 * Emitted when the client has disconnected and will not attempt to reconnect as the gateway has been marked
+			 * as being destroyed. This only occurs when APIClient#destroy() is called.
+			 * @event GatewayClient#destroyed
+			 */
+			this.emit('destroyed');
+		} else {
+			/**
+			 * Emitted when the client will try to reconnect to the gateway (with a 3 second backoff)
+			 * @event GatewayClient#reconnecting
+			 */
+			this.emit('reconnecting', event);
+			this.connectTimeout = setTimeout(() => this.connect(), 3e3);
+		}
 	}
 
 	private onOpen() {
