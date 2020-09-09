@@ -14,8 +14,6 @@ const apiClientInit = new apiClient.APIClient({ apiBase: 'unics-social' });
 test('getUser(): fetches users correctly', async () => {
 	for (const fixture of fixtures) {
 		mock.onGet(`unics-social/users/${fixture.id}`).reply(200, {
-			status: 200,
-			error: '',
 			user: fixture
 		});
 		const user = await apiClientInit.getUser(fixture.id);

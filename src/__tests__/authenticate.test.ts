@@ -19,5 +19,5 @@ test('authenticate(): authenticates valid users correctly', async () => {
 
 test('authenticate(): throws error if user enters invalid credentials', async () => {
 	mock.onPost('unics-social/authenticate', invalidData[0]).reply(400, { token: tokenAuth });
-	await expect(apiClientInit.authenticate(invalidData[0])).rejects.not.toEqual(tokenAuth);
+	await expect(apiClientInit.authenticate(invalidData[0])).rejects.toThrow();
 });
