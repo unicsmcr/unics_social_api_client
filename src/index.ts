@@ -1,4 +1,4 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, EventCreationData, EventEditData, GetMessageData, APIMessage, APIDMChannel, ProfileUploadData, APIEventChannel, RawAPIEvent, RawAPIMessage, RawAPIDMChannel, RawAPIEventChannel } from './types/api';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, EventCreationData, EventEditData, GetMessageData, APIMessage, APIDMChannel, ProfileUploadData, APIEventChannel } from './types/api';
 import axios, { AxiosResponse } from 'axios';
 import { GatewayClient } from './gateway';
 import FormData from 'form-data';
@@ -107,12 +107,8 @@ export class APIClient {
 	*/
 
 	public async getEvents(): Promise<APIEvent[]> {
-		const response: AxiosResponse<{ events: RawAPIEvent[] }> = await axios.get(`${this.apiBase}/users/@me/profile`, this.baseConfig);
-		return response.data.events.map(event => ({
-			...event,
-			startTime: new Date(event.startTime),
-			endTime: new Date(event.endTime)
-		}));
+		const response: AxiosResponse<{ events: APIEvent[] }> = await axios.get(`${this.apiBase}/users/@me/profile`, this.baseConfig);
+		return response.data.events;
 	}
 
 	public async createEvent(data: EventCreationData): Promise<APIEvent> {
@@ -129,18 +125,14 @@ export class APIClient {
 		*/
 		const contentTypeExtra = (formData.getBoundary as any) ? ` boundary=${formData.getBoundary()}` : '';
 
-		const response: AxiosResponse<{ event: RawAPIEvent }> = await axios.post(`${this.apiBase}/events`, formData, {
+		const response: AxiosResponse<{ event: APIEvent }> = await axios.post(`${this.apiBase}/events`, formData, {
 			...this.baseConfig,
 			headers: {
 				...this.baseConfig.headers,
 				'Content-Type': `multipart/form-data;${contentTypeExtra}`
 			}
 		});
-		return {
-			...response.data.event,
-			startTime: new Date(response.data.event.startTime),
-			endTime: new Date(response.data.event.endTime)
-		};
+		return response.data.event;
 	}
 
 	public async editEvent(data: EventEditData): Promise<APIEvent> {
@@ -157,18 +149,14 @@ export class APIClient {
 		*/
 		const contentTypeExtra = (formData.getBoundary as any) ? ` boundary=${formData.getBoundary()}` : '';
 
-		const response: AxiosResponse<{ event: RawAPIEvent }> = await axios.patch(`${this.apiBase}/events/${data.id}`, formData, {
+		const response: AxiosResponse<{ event: APIEvent }> = await axios.patch(`${this.apiBase}/events/${data.id}`, formData, {
 			...this.baseConfig,
 			headers: {
 				...this.baseConfig.headers,
 				'Content-Type': `multipart/form-data;${contentTypeExtra}`
 			}
 		});
-		return {
-			...response.data.event,
-			startTime: new Date(response.data.event.startTime),
-			endTime: new Date(response.data.event.endTime)
-		};
+		return response.data.event;
 	}
 
 	/*
@@ -176,43 +164,13 @@ export class APIClient {
 	*/
 
 	public async getChannels(): Promise<(APIDMChannel|APIEventChannel)[]> {
-		const response: AxiosResponse<{ channels: (RawAPIDMChannel|RawAPIEventChannel)[] }> = await axios.get(`${this.apiBase}/channels`, this.baseConfig);
-		return response.data.channels.map(channel => {
-			if (channel.type === 'dm') {
-				return {
-					...channel,
-					lastUpdated: new Date(channel.lastUpdated),
-					video: channel.video && {
-						...channel.video,
-						creationTime: new Date(channel.video.creationTime),
-						endTime: new Date(channel.video.endTime)
-					}
-				};
-			}
-			return {
-				...channel,
-				lastUpdated: new Date(channel.lastUpdated),
-				event: {
-					...channel.event,
-					startTime: new Date(channel.event.startTime),
-					endTime: new Date(channel.event.endTime)
-				}
-			};
-		});
+		const response: AxiosResponse<{ channels: (APIDMChannel|APIEventChannel)[] }> = await axios.get(`${this.apiBase}/channels`, this.baseConfig);
+		return response.data.channels;
 	}
 
 	public async createDMChannel(userID: string): Promise<APIDMChannel> {
-		const response: AxiosResponse<{ channel: RawAPIDMChannel }> = await axios.post(`${this.apiBase}/users/${userID}/channel`, this.baseConfig);
-		const channel = response.data.channel;
-		return {
-			...channel,
-			lastUpdated: new Date(channel.lastUpdated),
-			video: channel.video && {
-				...channel.video,
-				creationTime: new Date(channel.video.creationTime),
-				endTime: new Date(channel.video.endTime)
-			}
-		};
+		const response: AxiosResponse<{ channel: APIDMChannel }> = await axios.post(`${this.apiBase}/users/${userID}/channel`, this.baseConfig);
+		return response.data.channel;
 	}
 
 	/*
@@ -220,27 +178,18 @@ export class APIClient {
 	*/
 
 	public async getMessage(data: GetMessageData): Promise<APIMessage> {
-		const response: AxiosResponse<{ message: RawAPIMessage }> = await axios.get(`${this.apiBase}/channels/${data.channelID}/messages/${data.messageID}`, this.baseConfig);
-		return {
-			...response.data.message,
-			time: new Date(response.data.message.time)
-		};
+		const response: AxiosResponse<{ message: APIMessage }> = await axios.get(`${this.apiBase}/channels/${data.channelID}/messages/${data.messageID}`, this.baseConfig);
+		return response.data.message;
 	}
 
 	public async getMessages(channelID: string): Promise<APIMessage[]> {
-		const response: AxiosResponse<{ messages: RawAPIMessage[] }> = await axios.get(`${this.apiBase}/channels/${channelID}`, this.baseConfig);
-		return response.data.messages.map(message => ({
-			...message,
-			time: new Date(message.time)
-		}));
+		const response: AxiosResponse<{ messages: APIMessage[] }> = await axios.get(`${this.apiBase}/channels/${channelID}`, this.baseConfig);
+		return response.data.messages;
 	}
 
 	public async createMessage(data: Pick<APIMessage, 'content' | 'channelID'>): Promise<APIMessage> {
-		const response: AxiosResponse<{ message: RawAPIMessage }> = await axios.post(`${this.apiBase}/channels/${data.channelID}/messages`, { content: data.content }, this.baseConfig);
-		return {
-			...response.data.message,
-			time: new Date(response.data.message.time)
-		};
+		const response: AxiosResponse<{ message: APIMessage }> = await axios.post(`${this.apiBase}/channels/${data.channelID}/messages`, { content: data.content }, this.baseConfig);
+		return response.data.message;
 	}
 
 	public async deleteMessage(data: GetMessageData): Promise<void> {
