@@ -19,11 +19,7 @@ test('getMessage(): fetches message correctly', async () => {
 			message: fixture
 		});
 		const message = await apiClientInit.getMessage({ channelID: fixture.channelID, messageID: fixture.id });
-		const messageCheck = {
-			...fixture,
-			time: new Date(fixture.time)
-		};
-		expect(message).toEqual(messageCheck);
+		expect(message).toEqual(fixture);
 	}
 });
 

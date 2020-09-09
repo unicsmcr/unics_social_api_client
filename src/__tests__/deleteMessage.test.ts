@@ -13,7 +13,8 @@ const apiClientInit = new apiClient.APIClient({ apiBase: 'unics-social' });
 
 test('deleteMessage(): deletes message correctly', async () => {
 	mock.onDelete(`unics-social/channels/${deleteMessage.channelID}/messages/${deleteMessage.messageID}`).reply(200);
-	await apiClientInit.deleteMessage(deleteMessage);
+	const response = await apiClientInit.deleteMessage(deleteMessage);
+	await expect(response).toBeUndefined();
 });
 
 test('deleteMessage(): throw error if deletion request is bad', async () => {
