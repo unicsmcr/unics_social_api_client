@@ -87,7 +87,7 @@ export interface APIUser {
 	profile?: ProfileData;
 }
 
-export interface APIEvent {
+export interface RawAPIEvent {
 	id: string;
 	title: string;
 	startTime: string;
@@ -98,7 +98,7 @@ export interface APIEvent {
 	channelID: string;
 }
 
-export interface ProcessedAPIEvent {
+export interface APIEvent {
 	id: string;
 	title: string;
 	startTime: Date;
@@ -108,7 +108,7 @@ export interface ProcessedAPIEvent {
 	channelID: string;
 }
 
-export interface APIMessage {
+export interface RawAPIMessage {
 	id: string;
 	channelID: string;
 	authorID: string;
@@ -116,7 +116,7 @@ export interface APIMessage {
 	time: string;
 }
 
-export interface ProcessedAPIMessage {
+export interface APIMessage {
 	id: string;
 	channelID: string;
 	authorID: string;
