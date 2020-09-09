@@ -1,4 +1,4 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage, APIDMChannel, ProfileUploadData } from './types/api';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, EventCreationData, EventEditData, GetMessageData, APIMessage, APIDMChannel, ProfileUploadData, APIEventChannel, RawAPIEvent, RawAPIMessage, RawAPIDMChannel, RawAPIEventChannel } from './types/api';
 import axios, { AxiosResponse } from 'axios';
 import { GatewayClient } from './gateway';
 import FormData from 'form-data';
@@ -106,8 +106,8 @@ export class APIClient {
 		Event Routes
 	*/
 
-	public async getEvents(): Promise<ProcessedAPIEvent[]> {
-		const response: AxiosResponse<{ events: APIEvent[] }> = await axios.get(`${this.apiBase}/users/@me/profile`, this.baseConfig);
+	public async getEvents(): Promise<APIEvent[]> {
+		const response: AxiosResponse<{ events: RawAPIEvent[] }> = await axios.get(`${this.apiBase}/users/@me/profile`, this.baseConfig);
 		return response.data.events.map(event => ({
 			...event,
 			startTime: new Date(event.startTime),
@@ -115,7 +115,7 @@ export class APIClient {
 		}));
 	}
 
-	public async createEvent(data: EventCreationData): Promise<ProcessedAPIEvent> {
+	public async createEvent(data: EventCreationData): Promise<APIEvent> {
 		if (data.startTime instanceof Date) data.startTime = data.startTime.toISOString();
 		if (data.endTime instanceof Date) data.endTime = data.endTime.toISOString();
 		const formData = new FormData();
@@ -129,7 +129,7 @@ export class APIClient {
 		*/
 		const contentTypeExtra = (formData.getBoundary as any) ? ` boundary=${formData.getBoundary()}` : '';
 
-		const response: AxiosResponse<{ event: APIEvent }> = await axios.post(`${this.apiBase}/events`, formData, {
+		const response: AxiosResponse<{ event: RawAPIEvent }> = await axios.post(`${this.apiBase}/events`, formData, {
 			...this.baseConfig,
 			headers: {
 				...this.baseConfig.headers,
@@ -143,7 +143,7 @@ export class APIClient {
 		};
 	}
 
-	public async editEvent(data: EventEditData): Promise<ProcessedAPIEvent> {
+	public async editEvent(data: EventEditData): Promise<APIEvent> {
 		if (data.startTime instanceof Date) data.startTime = data.startTime.toISOString();
 		if (data.endTime instanceof Date) data.startTime = data.endTime.toISOString();
 		const formData = new FormData();
@@ -157,7 +157,7 @@ export class APIClient {
 		*/
 		const contentTypeExtra = (formData.getBoundary as any) ? ` boundary=${formData.getBoundary()}` : '';
 
-		const response: AxiosResponse<{ event: APIEvent }> = await axios.patch(`${this.apiBase}/events/${data.id}`, formData, {
+		const response: AxiosResponse<{ event: RawAPIEvent }> = await axios.patch(`${this.apiBase}/events/${data.id}`, formData, {
 			...this.baseConfig,
 			headers: {
 				...this.baseConfig.headers,
@@ -172,27 +172,71 @@ export class APIClient {
 	}
 
 	/*
+		Channel Routes
+	*/
+
+	public async getChannels(): Promise<(APIDMChannel|APIEventChannel)[]> {
+		const response: AxiosResponse<{ channels: (RawAPIDMChannel|RawAPIEventChannel)[] }> = await axios.get(`${this.apiBase}/channels`, this.baseConfig);
+		return response.data.channels.map(channel => {
+			if (channel.type === 'dm') {
+				return {
+					...channel,
+					lastUpdated: new Date(channel.lastUpdated),
+					video: channel.video && {
+						...channel.video,
+						creationTime: new Date(channel.video.creationTime),
+						endTime: new Date(channel.video.endTime)
+					}
+				};
+			}
+			return {
+				...channel,
+				lastUpdated: new Date(channel.lastUpdated),
+				event: {
+					...channel.event,
+					startTime: new Date(channel.event.startTime),
+					endTime: new Date(channel.event.endTime)
+				}
+			};
+		});
+	}
+
+	public async createDMChannel(userID: string): Promise<APIDMChannel> {
+		const response: AxiosResponse<{ channel: RawAPIDMChannel }> = await axios.post(`${this.apiBase}/users/${userID}/channel`, this.baseConfig);
+		const channel = response.data.channel;
+		return {
+			...channel,
+			lastUpdated: new Date(channel.lastUpdated),
+			video: channel.video && {
+				...channel.video,
+				creationTime: new Date(channel.video.creationTime),
+				endTime: new Date(channel.video.endTime)
+			}
+		};
+	}
+
+	/*
 		Message Routes
 	*/
 
-	public async getMessage(data: GetMessageData): Promise<ProcessedAPIMessage> {
-		const response: AxiosResponse<{ message: APIMessage }> = await axios.get(`${this.apiBase}/channels/${data.channelID}/messages/${data.messageID}`, this.baseConfig);
+	public async getMessage(data: GetMessageData): Promise<APIMessage> {
+		const response: AxiosResponse<{ message: RawAPIMessage }> = await axios.get(`${this.apiBase}/channels/${data.channelID}/messages/${data.messageID}`, this.baseConfig);
 		return {
 			...response.data.message,
 			time: new Date(response.data.message.time)
 		};
 	}
 
-	public async getMessages(channelID: string): Promise<ProcessedAPIMessage[]> {
-		const response: AxiosResponse<{ messages: APIMessage[] }> = await axios.get(`${this.apiBase}/channels/${channelID}`, this.baseConfig);
+	public async getMessages(channelID: string): Promise<APIMessage[]> {
+		const response: AxiosResponse<{ messages: RawAPIMessage[] }> = await axios.get(`${this.apiBase}/channels/${channelID}`, this.baseConfig);
 		return response.data.messages.map(message => ({
 			...message,
 			time: new Date(message.time)
 		}));
 	}
 
-	public async createMessage(data: Pick<APIMessage, 'content' | 'channelID'>): Promise<ProcessedAPIMessage> {
-		const response: AxiosResponse<{ message: APIMessage }> = await axios.post(`${this.apiBase}/channels/${data.channelID}/messages`, { content: data.content }, this.baseConfig);
+	public async createMessage(data: Pick<APIMessage, 'content' | 'channelID'>): Promise<APIMessage> {
+		const response: AxiosResponse<{ message: RawAPIMessage }> = await axios.post(`${this.apiBase}/channels/${data.channelID}/messages`, { content: data.content }, this.baseConfig);
 		return {
 			...response.data.message,
 			time: new Date(response.data.message.time)
