@@ -87,7 +87,7 @@ export interface APIUser {
 	profile?: ProfileData;
 }
 
-export interface RawAPIEvent {
+export interface APIEvent {
 	id: string;
 	title: string;
 	startTime: string;
@@ -98,17 +98,7 @@ export interface RawAPIEvent {
 	channelID: string;
 }
 
-export interface APIEvent {
-	id: string;
-	title: string;
-	startTime: Date;
-	endTime: Date;
-	description: string;
-	external: string;
-	channelID: string;
-}
-
-export interface RawAPIMessage {
+export interface APIMessage {
 	id: string;
 	channelID: string;
 	authorID: string;
@@ -116,27 +106,9 @@ export interface RawAPIMessage {
 	time: string;
 }
 
-export interface APIMessage {
-	id: string;
-	channelID: string;
-	authorID: string;
-	content: string;
-	time: Date;
-}
-
-export interface RawAPIChannel {
-	id: string;
-	lastUpdated: string;
-}
-
 export interface APIChannel {
 	id: string;
-	lastUpdated: Date;
-}
-
-export interface RawAPIEventChannel extends RawAPIChannel {
-	event: RawAPIEvent;
-	type: 'event';
+	lastUpdated: string;
 }
 
 export interface APIEventChannel extends APIChannel {
@@ -144,7 +116,7 @@ export interface APIEventChannel extends APIChannel {
 	type: 'event';
 }
 
-export interface RawAPIVideoIntegration {
+export interface APIVideoIntegration {
 	id: string;
 	creationTime: string;
 	endTime: string;
@@ -152,22 +124,6 @@ export interface RawAPIVideoIntegration {
 		id: string;
 		accessToken: string;
 	}[];
-}
-
-export interface APIVideoIntegration {
-	id: string;
-	creationTime: Date;
-	endTime: Date;
-	users?: {
-		id: string;
-		accessToken: string;
-	}[];
-}
-
-export interface RawAPIDMChannel extends RawAPIChannel {
-	users: string[];
-	type: 'dm';
-	video?: RawAPIVideoIntegration;
 }
 
 export interface APIDMChannel extends APIChannel {
