@@ -9,6 +9,7 @@ export const users: APIUser[] = [
 		profile: {
 			course: Course.COMPUTER_SCIENCE,
 			yearOfStudy: Year.ONE
+
 		}
 	},
 	{

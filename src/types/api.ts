@@ -102,16 +102,6 @@ export interface APIEvent {
 	channelID: string;
 }
 
-export interface ProcessedAPIEvent {
-	id: string;
-	title: string;
-	startTime: Date;
-	endTime: Date;
-	description: string;
-	external: string;
-	channelID: string;
-}
-
 export interface APIMessage {
 	id: string;
 	channelID: string;
@@ -120,16 +110,9 @@ export interface APIMessage {
 	time: string;
 }
 
-export interface ProcessedAPIMessage {
-	id: string;
-	channelID: string;
-	authorID: string;
-	content: string;
-	time: Date;
-}
-
 export interface APIChannel {
 	id: string;
+	lastUpdated: string;
 }
 
 export interface APIEventChannel extends APIChannel {
@@ -137,7 +120,18 @@ export interface APIEventChannel extends APIChannel {
 	type: 'event';
 }
 
+export interface APIVideoIntegration {
+	id: string;
+	creationTime: string;
+	endTime: string;
+	users?: {
+		id: string;
+		accessToken: string;
+	}[];
+}
+
 export interface APIDMChannel extends APIChannel {
 	users: string[];
 	type: 'dm';
+	video?: APIVideoIntegration;
 }

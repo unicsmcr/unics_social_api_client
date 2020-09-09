@@ -1,6 +1,6 @@
 {
  "name": "@unicsmcr/unics_social_api_client",
- "version": "0.0.6",
+ "version": "0.0.8",
  "description": "networking for CS students at the University of Manchester",
  "main": "dist/index.js",
  "types": "dist/index.d.ts",
@@ -38,7 +38,7 @@
   "@unicsmcr/eslint-config": "^0.0.2",
   "axios-mock-adapter": "^1.18.2",
   "eslint": "^7.6.0",
-  "jest": "^26.2.2",
+  "jest": "^26.4.2",
   "ts-jest": "^26.1.4",
   "typescript": "^3.9.7"
  },
@@ -69,6 +69,7 @@
  },
  "dependencies": {
   "axios": "^0.19.2",
+  "axios-mock-adapter": "^1.18.2",
   "form-data": "^3.0.0",
   "ws": "^7.3.1"
  },
