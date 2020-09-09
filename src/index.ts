@@ -1,4 +1,4 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage, APIDMChannel, ProfileUploadData } from './types/api';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, ProcessedAPIEvent, EventCreationData, EventEditData, GetMessageData, ProcessedAPIMessage, APIMessage, APIDMChannel, ProfileUploadData, APIChannel, APIEventChannel } from './types/api';
 import axios, { AxiosResponse } from 'axios';
 import { GatewayClient } from './gateway';
 import FormData from 'form-data';
@@ -169,6 +169,20 @@ export class APIClient {
 			startTime: new Date(response.data.event.startTime),
 			endTime: new Date(response.data.event.endTime)
 		};
+	}
+
+	/*
+		Channel Routes
+	*/
+
+	public async getChannels(): Promise<(APIDMChannel|APIEventChannel)[]> {
+		const response: AxiosResponse<{ channels: (APIDMChannel|APIEventChannel)[] }> = await axios.get(`${this.apiBase}/channels`, this.baseConfig);
+		return response.data.channels;
+	}
+
+	public async createDMChannel(userID: string): Promise<APIDMChannel> {
+		const response: AxiosResponse<{ channel: APIDMChannel }> = await axios.post(`${this.apiBase}/users/${userID}/channel`, this.baseConfig);
+		return response.data.channel;
 	}
 
 	/*
