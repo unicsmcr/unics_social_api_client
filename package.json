@@ -36,6 +36,7 @@
   "@typescript-eslint/eslint-plugin": "^3.7.1",
   "@typescript-eslint/parser": "^3.7.1",
   "@unicsmcr/eslint-config": "^0.0.2",
+  "axios-mock-adapter": "^1.18.2",
   "eslint": "^7.6.0",
   "jest": "^26.4.2",
   "ts-jest": "^26.1.4",
@@ -62,7 +63,8 @@
    }
   },
   "collectCoverageFrom": [
-   "src/**/*.ts"
+   "src/**/*.ts",
+   "!src/__tests__/**/*"
   ]
  },
  "dependencies": {
