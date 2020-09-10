@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import * as apiClient from '../';
-import { validEvents, validEditEvent, invalidCreateEvent, invalidEditEvents } from './fixtures/events';
+import { validEvents, validEditEvent, invalidEditEvents } from './fixtures/events';
 import FormData from 'form-data';
 
 const mock = new MockAdapter(axios);

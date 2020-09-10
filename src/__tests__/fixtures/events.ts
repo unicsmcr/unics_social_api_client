@@ -22,19 +22,6 @@ export const validEvents: APIEvent[] = [
 	}
 ];
 
-export const invalidEvents: APIEvent[] = [
-	{
-		id: '100',
-		title: 'Invalid Event',
-		startTime: '',
-		endTime: '',
-		description: 'Invalid Description?',
-		external: '---',
-		image: false,
-		channelID: '10'
-	}
-];
-
 /* Event Creation Data */
 
 export const validCreateEvent: EventCreationData = {
