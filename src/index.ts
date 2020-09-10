@@ -75,8 +75,8 @@ export class APIClient {
 		return response.data.channel;
 	}
 
-	public async getMe(): Promise<APIPrivateUser> {
-		const response: AxiosResponse<{ user: APIPrivateUser }> = await axios.get(`${this.apiBase}/users/@me`, this.baseConfig);
+	public async getMe(): Promise<APIUser> {
+		const response: AxiosResponse<{ user: APIUser }> = await axios.get(`${this.apiBase}/users/@me`, this.baseConfig);
 		return response.data.user;
 	}
 
