@@ -16,7 +16,7 @@ export class GatewayClient extends EventEmitter {
 	private readonly useWss: boolean;
 	private _inDiscoveryQueue: boolean;
 	private lifetimeState: State;
-	private connectTimeout?: NodeJS.Timeout;
+	private connectTimeout?: ReturnType<typeof setTimeout>;
 
 	public constructor(apiClient: APIClient, useWss = false) {
 		super();
