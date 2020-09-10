@@ -12,7 +12,7 @@ afterEach(() => {
 
 const apiClientInit = new apiClient.APIClient({ apiBase: 'unics-social' });
 
-test('createEvent(): creates event correctly with unset contentTypeExtra', async () => {
+test('createEvent(): creates event correctly with FormData type checks', async () => {
 	const formData = new FormData();
 	for (const [key, value] of Object.entries(validCreateEvent)) {
 		formData.append(key, (key === 'image' && typeof value === 'boolean') ? String(value) : value);

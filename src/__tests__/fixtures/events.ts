@@ -1,4 +1,4 @@
-import { APIEvent, EventCreationData } from '../../types/api';
+import { APIEvent, EventCreationData, EventEditData } from '../../types/api';
 export const validEvents: APIEvent[] = [
 	{
 		id: '100',
@@ -58,3 +58,21 @@ export const invalidCreateEvent: EventCreationData = {
 /* Token for headers */
 
 export const apiToken = 'eyJHbGci0eyJpZCI6IjBiNjQfPQ6l94-Py_tpKL';
+
+/* Event Edit Data */
+
+export const validEditEvent: EventEditData = {
+	id: '100',
+	...validCreateEvent
+};
+
+export const invalidEditEvents = [
+	{
+		id: '',
+		...invalidCreateEvent
+	},
+	{
+		id: '200',
+		...invalidCreateEvent
+	}
+];
