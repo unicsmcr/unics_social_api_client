@@ -92,7 +92,7 @@ export class APIClient {
 			In Node-land, formData.getBoundary is a defined function, and in browser this is undefined and not really required.
 		*/
 		const contentTypeExtra = (formData.getBoundary as any) ? ` boundary=${formData.getBoundary()}` : '';
-
+		console.log(contentTypeExtra);
 		const response: AxiosResponse<{ user: APIUser }> = await axios.put(`${this.apiBase}/users/@me/profile`, formData, {
 			...this.baseConfig,
 			headers: {
