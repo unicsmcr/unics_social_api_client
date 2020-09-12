@@ -13,7 +13,7 @@ export const privateUsers: APIPrivateUser[] = [
 			facebook: 'thatjohndoe',
 			twitter: 'undefined'
 		},
-    email: 'johndoe@student.manchester.ac.uk'
+		email: 'johndoe@student.manchester.ac.uk'
 	},
 	{
 		id: '1a2b3c4d5e',
@@ -28,6 +28,6 @@ export const privateUsers: APIPrivateUser[] = [
 			facebook: 'undefined',
 			twitter: 'bobobobo'
 		},
-    email: 'blob@student.manchester.ac.uk'
+		email: 'blob@student.manchester.ac.uk'
 	}
 ];

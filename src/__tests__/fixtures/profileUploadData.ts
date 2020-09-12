@@ -1,9 +1,8 @@
-import { ProfileUploadData, Course, Year, APIAccountStatus, APIAccountType } from '../../types/api';
-import FormData from 'form-data';
+import { ProfileUploadData, Course, Year } from '../../types/api';
 
 export const uploadData: ProfileUploadData[] = [
 	{
-    avatar: false,
+		avatar: false,
 		course: Course.COMPUTER_SCIENCE,
 		yearOfStudy: Year.ONE,
 		instagram: 'doraemi12',
@@ -11,7 +10,7 @@ export const uploadData: ProfileUploadData[] = [
 		twitter: 'undefined'
 	},
 	{
-    avatar: false,
+		avatar: false,
 		course: Course.ARTIFICIAL_INTELLIGENCE,
 		yearOfStudy: Year.MASTERS,
 		instagram: 'bobross1234',
