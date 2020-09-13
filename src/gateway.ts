@@ -78,7 +78,7 @@ export class GatewayClient extends EventEmitter {
 					channelID
 				}
 			}
-		)
+		);
 	}
 
 	private connect() {
