@@ -1,7 +1,7 @@
 import NodeWebSocket from 'ws';
 import { APIClient } from '.';
 import { EventEmitter } from 'events';
-import { GatewayPacket, IdentifyGatewayPacket, GatewayPacketType, JoinDiscoveryQueuePacket, QueueOptions, LeaveDiscoveryQueuePacket, PongGatewayPacket } from './types/gateway';
+import { GatewayPacket, IdentifyGatewayPacket, GatewayPacketType, JoinDiscoveryQueuePacket, QueueOptions, LeaveDiscoveryQueuePacket, PongGatewayPacket, ClientTypingPacket } from './types/gateway';
 
 const isBrowser = Boolean(typeof window !== 'undefined' && window.WebSocket);
 
@@ -11,7 +11,7 @@ enum State {
 }
 
 export class GatewayClient extends EventEmitter {
-	private ws!: WebSocket|NodeWebSocket;
+	private ws!: WebSocket | NodeWebSocket;
 	private readonly apiClient: APIClient;
 	private readonly useWss: boolean;
 	private _inDiscoveryQueue: boolean;
@@ -68,6 +68,17 @@ export class GatewayClient extends EventEmitter {
 				type: GatewayPacketType.LeaveDiscoveryQueue
 			}
 		);
+	}
+
+	public async sendTypingPacket(channelID: string) {
+		await this.send<ClientTypingPacket>(
+			{
+				type: GatewayPacketType.ClientTyping,
+				data: {
+					channelID
+				}
+			}
+		)
 	}
 
 	private connect() {
