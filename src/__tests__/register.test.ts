@@ -1,15 +1,12 @@
 import MockAdapter from 'axios-mock-adapter';
 import { APIClient as apiClient } from '../';
 import { validData, invalidEmail, invalidPassword } from './fixtures/registerData';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
+import unwrapErrorBody from './util/unwrapErrorBody';
 
 const mock = new MockAdapter(axios);
 
 const myAPIClient = new apiClient({ apiBase: 'unics_social' });
-
-function getResponseBody(promise: Promise<AxiosResponse>) {
-	return promise.catch((out: any) => Promise.reject(out.response.data));
-}
 
 afterEach(() => {
 	mock.reset();
@@ -30,7 +27,7 @@ test('register(): throws error if user enters invalid email', async () => {
 			status: 400,
 			error: 'A University of Manchester student email account is required'
 		});
-		await expect(getResponseBody(myAPIClient.register(fixture))).rejects.toMatchObject({ error: 'A University of Manchester student email account is required' });
+		await expect(unwrapErrorBody(myAPIClient.register(fixture))).rejects.toMatchObject({ error: 'A University of Manchester student email account is required' });
 	}
 });
 
@@ -41,6 +38,6 @@ test('register(): throws error if password is too small', async () => {
 			status: 400,
 			error: 'Password must be at least 10 characters long'
 		});
-		await expect(getResponseBody(myAPIClient.register(fixture))).rejects.toMatchObject({ error: 'Password must be at least 10 characters long' });
+		await expect(unwrapErrorBody(myAPIClient.register(fixture))).rejects.toMatchObject({ error: 'Password must be at least 10 characters long' });
 	}
 });

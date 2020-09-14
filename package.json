@@ -8,7 +8,7 @@
   "build": "tsc",
   "lint": "eslint src --ext .ts",
   "lint:fix": "eslint src --ext .ts --fix",
-  "test": "jest src --coverage"
+  "test": "jest src/**/*.test.ts --coverage"
  },
  "repository": {
   "type": "git",
