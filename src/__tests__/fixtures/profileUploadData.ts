@@ -19,7 +19,7 @@ export const validUploadData: ProfileUploadData[] = [
 	}
 ];
 
-export const invalidInstagramHandles:  ProfileUploadData[] = [
+export const invalidInstagramHandles: ProfileUploadData[] = [
 	{
 		avatar: false,
 		course: Course.COMPUTER_SCIENCE,
@@ -38,7 +38,7 @@ export const invalidInstagramHandles:  ProfileUploadData[] = [
 	}
 ];
 
-export const invalidFacebookHandles:  ProfileUploadData[] = [
+export const invalidFacebookHandles: ProfileUploadData[] = [
 	{
 		avatar: false,
 		course: Course.COMPUTER_SCIENCE,
@@ -54,24 +54,5 @@ export const invalidFacebookHandles:  ProfileUploadData[] = [
 		instagram: 'bobross234',
 		facebook: ':p_invalid',
 		twitter: 'bobobobo'
-	}
-];
-
-export const invalidTwitterHandles:  ProfileUploadData[] = [
-	{
-		avatar: false,
-		course: Course.COMPUTER_SCIENCE,
-		yearOfStudy: Year.ONE,
-		instagram: 'john2468',
-		facebook: 'thatjohndoe',
-		twitter: 'thistwitterusernameistoolong'
-	},
-	{
-		avatar: false,
-		course: Course.ARTIFICIAL_INTELLIGENCE,
-		yearOfStudy: Year.MASTERS,
-		instagram: 'bobross234',
-		facebook: 'valid',
-		twitter: 'invalidusername:))'
 	}
 ];
