@@ -12,7 +12,11 @@ export enum GatewayPacketType {
 	// Sent by the client to leave a Discovery queue
 	LeaveDiscoveryQueue = 'LEAVE_DISCOVERY_QUEUE',
 	// Sent by the gateway once a match has been made
-	DiscoveryQueueMatch = 'DISCOVERY_QUEUE_MATCH'
+	DiscoveryQueueMatch = 'DISCOVERY_QUEUE_MATCH',
+	// Sent by the client when starting to type
+	ClientTyping = 'CLIENT_TYPING',
+	// Sent by the gateway to indicate someone has started typing
+	GatewayTyping = 'GATEWAY_TYPING'
 }
 
 export interface QueueOptions {
@@ -81,4 +85,20 @@ export interface DiscoveryQueueMatchPacket extends GatewayPacket {
 		channel: APIDMChannel;
 	};
 }
+
+export interface ClientTypingPacket extends GatewayPacket {
+	type: GatewayPacketType.ClientTyping;
+	data: {
+		channelID: string;
+	};
+}
+
+export interface GatewayTypingPacket extends GatewayPacket {
+	type: GatewayPacketType.GatewayTyping;
+	data: {
+		userID: string;
+		channelID: string;
+	};
+}
+
 
