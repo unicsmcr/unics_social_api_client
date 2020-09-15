@@ -2,7 +2,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { APIClient as apiClient } from '../';
 import { users } from './fixtures/users';
 import { channels } from './fixtures/channels';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import unwrapErrorBody from './util/unwrapErrorBody';
 
 const mock = new MockAdapter(axios);
@@ -23,8 +23,8 @@ test('createUserDM(): returns channel if user ID is valid', async () => {
 });
 
 test('createUserDM(): throws error if user ID is invalid', async () => {
-  for (let i = 0; i < users.length; i++) {
-		mock.onPost(`unics_social/users/${users[i].id}/channel`).reply(400, { error: "invalid user ID" });
-		await expect(unwrapErrorBody(myAPIClient.createUserDM(users[i].id))).rejects.toMatchObject( { error: "invalid user ID" });
+	for (const user of users) {
+		mock.onPost(`unics_social/users/${user.id}/channel`).reply(400, { error: 'invalid user ID' });
+		await expect(unwrapErrorBody(myAPIClient.createUserDM(user.id))).rejects.toMatchObject({ error: 'invalid user ID' });
 	}
 });
