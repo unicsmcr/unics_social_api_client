@@ -1,6 +1,6 @@
 {
  "name": "@unicsmcr/unics_social_api_client",
- "version": "0.0.8",
+ "version": "0.0.9",
  "description": "networking for CS students at the University of Manchester",
  "main": "dist/index.js",
  "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
   "build": "tsc",
   "lint": "eslint src --ext .ts",
   "lint:fix": "eslint src --ext .ts --fix",
-  "test": "jest src --coverage"
+  "test": "jest --coverage"
  },
  "repository": {
   "type": "git",
@@ -54,8 +54,8 @@
  "jest": {
   "preset": "ts-jest",
   "testEnvironment": "node",
-  "testPathIgnorePatterns": [
-   "<rootDir>/src/__tests__/fixtures"
+  "testMatch": [
+    "<rootDir>/src/**/*.test.ts"
   ],
   "globals": {
    "ts-jest": {

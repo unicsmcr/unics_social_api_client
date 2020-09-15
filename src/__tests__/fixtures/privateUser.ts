@@ -1,5 +1,5 @@
-import { APIUser, Course, Year, APIAccountStatus, APIAccountType } from '../../types/api';
-export const users: APIUser[] = [
+import { APIPrivateUser, Course, Year, APIAccountStatus, APIAccountType } from '../../types/api';
+export const privateUsers: APIPrivateUser[] = [
 	{
 		id: '123456',
 		forename: 'John',
@@ -11,8 +11,9 @@ export const users: APIUser[] = [
 			yearOfStudy: Year.ONE,
 			instagram: 'doraemi12',
 			facebook: 'thatjohndoe',
-			twitter: undefined
-		}
+			twitter: 'undefined'
+		},
+		email: 'johndoe@student.manchester.ac.uk'
 	},
 	{
 		id: '1a2b3c4d5e',
@@ -24,8 +25,9 @@ export const users: APIUser[] = [
 			course: Course.ARTIFICIAL_INTELLIGENCE,
 			yearOfStudy: Year.MASTERS,
 			instagram: 'bobross1234',
-			facebook: undefined,
+			facebook: 'undefined',
 			twitter: 'bobobobo'
-		}
+		},
+		email: 'blob@student.manchester.ac.uk'
 	}
 ];
