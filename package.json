@@ -8,7 +8,7 @@
   "build": "tsc",
   "lint": "eslint src --ext .ts",
   "lint:fix": "eslint src --ext .ts --fix",
-  "test": "jest src --coverage"
+  "test": "jest --coverage"
  },
  "repository": {
   "type": "git",
@@ -54,8 +54,8 @@
  "jest": {
   "preset": "ts-jest",
   "testEnvironment": "node",
-  "testPathIgnorePatterns": [
-   "<rootDir>/src/__tests__/fixtures"
+  "testMatch": [
+    "<rootDir>/src/**/*.test.ts"
   ],
   "globals": {
    "ts-jest": {

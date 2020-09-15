@@ -1,15 +1,12 @@
 import MockAdapter from 'axios-mock-adapter';
 import { APIClient as apiClient } from '../';
 import { tokens, invalidTokens } from './fixtures/tokens';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
+import unwrapErrorBody from './util/unwrapErrorBody';
 
 const mock = new MockAdapter(axios);
 
 const myAPIClient = new apiClient({ apiBase: 'unics_social' });
-
-function getResponseBody(promise: Promise<AxiosResponse>) {
-	return promise.catch((out: any) => Promise.reject(out.response.data));
-}
 
 afterEach(() => {
 	mock.reset();
@@ -29,7 +26,7 @@ test('verifyEmail(): throws error if account is verified more than once', async 
 			status: 400,
 			error: 'Your account has already been verified'
 		});
-		await expect(getResponseBody(myAPIClient.verifyEmail(fixture))).rejects.toMatchObject({ error: 'Your account has already been verified' });
+		await expect(unwrapErrorBody(myAPIClient.verifyEmail(fixture))).rejects.toMatchObject({ error: 'Your account has already been verified' });
 	}
 });
 
@@ -39,6 +36,6 @@ test('verifyEmail(): rejects invalid token', async () => {
 			status: 400,
 			error: 'Authorization token is invalid'
 		});
-		await expect(getResponseBody(myAPIClient.verifyEmail(fixture))).rejects.toMatchObject({ error: 'Authorization token is invalid' });
+		await expect(unwrapErrorBody(myAPIClient.verifyEmail(fixture))).rejects.toMatchObject({ error: 'Authorization token is invalid' });
 	}
 });
