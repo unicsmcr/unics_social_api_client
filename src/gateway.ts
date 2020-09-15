@@ -11,7 +11,7 @@ enum State {
 }
 
 export class GatewayClient extends EventEmitter {
-	private ws!: WebSocket|NodeWebSocket;
+	private ws!: WebSocket | NodeWebSocket;
 	private readonly apiClient: APIClient;
 	private readonly useWss: boolean;
 	private _inDiscoveryQueue: boolean;
@@ -69,6 +69,7 @@ export class GatewayClient extends EventEmitter {
 			}
 		);
 	}
+
 
 	private connect() {
 		const WebSocketClass = isBrowser ? window.WebSocket : NodeWebSocket;
