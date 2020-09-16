@@ -70,11 +70,6 @@ export class APIClient {
 		return response.data.user;
 	}
 
-	public async createUserDM(userID: string): Promise<APIDMChannel> {
-		const response: AxiosResponse<{ channel: APIDMChannel }> = await axios.post(`${this.apiBase}/users/${userID}/channel`, this.baseConfig);
-		return response.data.channel;
-	}
-
 	public async getMe(): Promise<APIUser> {
 		const response: AxiosResponse<{ user: APIUser }> = await axios.get(`${this.apiBase}/users/@me`, this.baseConfig);
 		return response.data.user;
