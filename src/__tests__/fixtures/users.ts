@@ -11,7 +11,9 @@ export const users: APIUser[] = [
 			yearOfStudy: Year.ONE,
 			instagram: 'doraemi12',
 			facebook: 'thatjohndoe',
-			twitter: undefined
+			twitter: undefined,
+			linkedin: 'https://www.linkedin.com/in/john-doe'
+
 		}
 	},
 	{
@@ -25,7 +27,9 @@ export const users: APIUser[] = [
 			yearOfStudy: Year.MASTERS,
 			instagram: 'bobross1234',
 			facebook: undefined,
-			twitter: 'bobobobo'
+			twitter: 'bobobobo',
+			linkedin: 'https://www.linkedin.com/in/bob-ross'
+
 		}
 	}
 ];

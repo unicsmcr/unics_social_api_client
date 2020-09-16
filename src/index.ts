@@ -82,7 +82,7 @@ export class APIClient {
 
 	public async editProfile(data: ProfileUploadData): Promise<APIUser> {
 		const formData = new FormData();
-		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter'];
+		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter', 'linkedin'];
 
 		for (const key of props) {
 			if (data.hasOwnProperty(key)) formData.append(key, (key === 'avatar' && typeof data[key] === 'boolean') ? String(data[key]) : data[key]);
