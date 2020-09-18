@@ -35,7 +35,7 @@ test('getPublicUsers(): fetches more than 1 user correctly', async () => {
 	expect(publicUsers).toEqual(users);
 });
 
-test('getMessages(): throws when API response has error code', async () => {
+test('getPublicUsers(): throws when API response has error code', async () => {
 	mock.onGet(`unics-social/users`).reply(404, {
 		error: 'Users not found'
 	});
