@@ -137,3 +137,13 @@ export interface APIDMChannel extends APIChannel {
 	type: 'dm';
 	video?: APIVideoIntegration;
 }
+
+export interface APIReport {
+	id: string;
+	reportedUserID: string;
+	reportingUserID: string;
+	currentTime: string;
+	description: string;
+}
+
+export type ReportDataToCreate = Omit<APIReport, 'id' | 'currentTime'>;

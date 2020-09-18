@@ -1,4 +1,4 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, EventCreationData, EventEditData, GetMessageData, APIMessage, APIDMChannel, ProfileUploadData, APIEventChannel } from './types/api';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, EventCreationData, EventEditData, GetMessageData, APIMessage, APIDMChannel, ProfileUploadData, APIEventChannel, APIReport, ReportDataToCreate } from './types/api';
 import axios, { AxiosResponse } from 'axios';
 import { GatewayClient } from './gateway';
 import FormData from 'form-data';
@@ -190,5 +190,12 @@ export class APIClient {
 
 	public async deleteMessage(data: GetMessageData): Promise<void> {
 		await axios.delete(`${this.apiBase}/channels/${data.channelID}/messages/${data.messageID}`, this.baseConfig);
+	}
+
+	/* Report */
+
+	public async reportUser(data: ReportDataToCreate): Promise<APIReport> {
+		const response: AxiosResponse<{ report: APIReport }> = await axios.post(`${this.apiBase}/users/${data.reportedUserID}/report`, data, this.baseConfig);
+		return response.data.report;
 	}
 }
