@@ -1,6 +1,6 @@
 {
  "name": "@unicsmcr/unics_social_api_client",
- "version": "0.0.9",
+ "version": "0.1.0",
  "description": "networking for CS students at the University of Manchester",
  "main": "dist/index.js",
  "types": "dist/index.d.ts",
@@ -55,7 +55,7 @@
   "preset": "ts-jest",
   "testEnvironment": "node",
   "testMatch": [
-    "<rootDir>/src/**/*.test.ts"
+   "<rootDir>/src/**/*.test.ts"
   ],
   "globals": {
    "ts-jest": {
