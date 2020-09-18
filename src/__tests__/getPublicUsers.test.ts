@@ -24,7 +24,7 @@ test('getPublicUsers(): fetches 1 user correctly', async () => {
 		users: users[0]
 	});
 	const publicUsers = await apiClientInit.getPublicUsers();
-	expect(publicUsers).toEqual(users[0]);
+	await expect(publicUsers).toEqual(users[0]);
 });
 
 test('getPublicUsers(): fetches more than 1 user correctly', async () => {
