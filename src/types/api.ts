@@ -28,6 +28,7 @@ export interface ProfileUploadData {
 	instagram?: string;
 	facebook?: string;
 	twitter?: string;
+	linkedin?: string;
 }
 
 export interface ProfileData {
@@ -37,6 +38,7 @@ export interface ProfileData {
 	instagram?: string;
 	facebook?: string;
 	twitter?: string;
+	linkedin?: string;
 }
 
 export enum Course {
