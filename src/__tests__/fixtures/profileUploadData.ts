@@ -1,4 +1,4 @@
-import { ProfileUploadData, Course, Year } from '../../types/api';
+import { ProfileUploadData, Course, Year, Visibility } from '../../types/api';
 
 export const validUploadData: ProfileUploadData[] = [
 	{
@@ -8,7 +8,8 @@ export const validUploadData: ProfileUploadData[] = [
 		instagram: 'doraemi12',
 		facebook: 'thatjohndoe',
 		twitter: 'undefined',
-		linkedin: 'https://www.linkedin.com/in/john-doe'
+		linkedin: 'https://www.linkedin.com/in/john-doe',
+		visibility: Visibility.Public
 	},
 	{
 		avatar: false,
@@ -17,8 +18,8 @@ export const validUploadData: ProfileUploadData[] = [
 		instagram: 'bobross1234',
 		facebook: 'undefined',
 		twitter: 'bobobobo',
-		linkedin: 'https://www.linkedin.com/in/bob-ross'
-
+		linkedin: 'https://www.linkedin.com/in/bob-ross',
+		visibility: Visibility.Public
 	}
 ];
 
@@ -29,7 +30,8 @@ export const invalidInstagramHandles: ProfileUploadData[] = [
 		yearOfStudy: Year.ONE,
 		instagram: '!!!notvalid',
 		facebook: 'thatjohndoe',
-		twitter: 'undefined'
+		twitter: 'undefined',
+		visibility: Visibility.Public
 	},
 	{
 		avatar: false,
@@ -37,7 +39,8 @@ export const invalidInstagramHandles: ProfileUploadData[] = [
 		yearOfStudy: Year.MASTERS,
 		instagram: '..bob',
 		facebook: 'undefined',
-		twitter: 'bobobobo'
+		twitter: 'bobobobo',
+		visibility: Visibility.Public
 	}
 ];
 
@@ -48,7 +51,8 @@ export const invalidFacebookHandles: ProfileUploadData[] = [
 		yearOfStudy: Year.ONE,
 		instagram: 'john2468',
 		facebook: ':)',
-		twitter: 'undefined'
+		twitter: 'undefined',
+		visibility: Visibility.Public
 	},
 	{
 		avatar: false,
@@ -56,6 +60,7 @@ export const invalidFacebookHandles: ProfileUploadData[] = [
 		yearOfStudy: Year.MASTERS,
 		instagram: 'bobross234',
 		facebook: ':p_invalid',
-		twitter: 'bobobobo'
+		twitter: 'bobobobo',
+		visibility: Visibility.Public
 	}
 ];

@@ -70,6 +70,11 @@ export class APIClient {
 		return response.data.user;
 	}
 
+	public async getPublicUsers(): Promise<APIUser[]> {
+		const response: AxiosResponse<{users: APIUser[] }> = await axios.get(`${this.apiBase}/users`, this.baseConfig);
+		return response.data.users;
+	}
+
 	public async getMe(): Promise<APIUser> {
 		const response: AxiosResponse<{ user: APIUser }> = await axios.get(`${this.apiBase}/users/@me`, this.baseConfig);
 		return response.data.user;
@@ -77,7 +82,7 @@ export class APIClient {
 
 	public async editProfile(data: ProfileUploadData): Promise<APIUser> {
 		const formData = new FormData();
-		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter', 'linkedin'];
+		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter', 'linkedin', 'visibility'];
 
 		for (const key of props) {
 			if (data.hasOwnProperty(key)) formData.append(key, (key === 'avatar' && typeof data[key] === 'boolean') ? String(data[key]) : data[key]);

@@ -19,7 +19,7 @@ afterEach(() => {
 test('editProfile(): returns profile information', async () => {
 	for (let i = 0; i < privateUsers.length; i++) {
 		const myFormData = new FormData();
-		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter', 'linkedin'];
+		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter', 'linkedin', 'visibility'];
 
 		for (const key of props) {
 			if (validUploadData[i].hasOwnProperty(key)) myFormData.append(key, (key === 'avatar' && typeof validUploadData[i][key] === 'boolean') ? String(validUploadData[i][key]) : validUploadData[i][key]);
@@ -34,7 +34,7 @@ test('editProfile(): returns profile information', async () => {
 test('editProfile(): throws error if instagram username is invalid', async () => {
 	for (let i = 0; i < privateUsers.length; i++) {
 		const myFormData = new FormData();
-		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter', 'linkedin'];
+		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter', 'linkedin', 'visibility'];
 
 		for (const key of props) {
 			if (invalidInstagramHandles[i].hasOwnProperty(key)) myFormData.append(key, (key === 'avatar' && typeof invalidInstagramHandles[i][key] === 'boolean') ? String(invalidInstagramHandles[i][key]) : invalidInstagramHandles[i][key]);
@@ -50,7 +50,7 @@ test('editProfile(): throws error if instagram username is invalid', async () =>
 test('editProfile(): throws error if facebook username is invalid', async () => {
 	for (let i = 0; i < privateUsers.length; i++) {
 		const myFormData = new FormData();
-		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter', 'linkedin'];
+		const props: (keyof ProfileUploadData)[] = ['avatar', 'course', 'yearOfStudy', 'instagram', 'facebook', 'twitter', 'linkedin', 'visibility'];
 
 		for (const key of props) {
 			if (invalidFacebookHandles[i].hasOwnProperty(key)) myFormData.append(key, (key === 'avatar' && typeof invalidFacebookHandles[i][key] === 'boolean') ? String(invalidFacebookHandles[i][key]) : invalidFacebookHandles[i][key]);

@@ -1,4 +1,4 @@
-import { APIPrivateUser, Course, Year, APIAccountStatus, APIAccountType } from '../../types/api';
+import { APIPrivateUser, Course, Year, APIAccountStatus, APIAccountType, Visibility } from '../../types/api';
 export const privateUsers: APIPrivateUser[] = [
 	{
 		id: '123456',
@@ -12,7 +12,8 @@ export const privateUsers: APIPrivateUser[] = [
 			instagram: 'doraemi12',
 			facebook: 'thatjohndoe',
 			twitter: 'undefined',
-			linkedin: 'https://www.linkedin.com/in/john-doe'
+			linkedin: 'https://www.linkedin.com/in/john-doe',
+			visibility: Visibility.Public
 		},
 		email: 'johndoe@student.manchester.ac.uk'
 	},
@@ -28,7 +29,8 @@ export const privateUsers: APIPrivateUser[] = [
 			instagram: 'bobross1234',
 			facebook: 'undefined',
 			twitter: 'bobobobo',
-			linkedin: 'https://www.linkedin.com/in/bob-ross'
+			linkedin: 'https://www.linkedin.com/in/bob-ross',
+			visibility: Visibility.Public
 		},
 		email: 'blob@student.manchester.ac.uk'
 	}
