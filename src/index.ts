@@ -178,8 +178,8 @@ export class APIClient {
 		return response.data.message;
 	}
 
-	public async getMessages(channelID: string): Promise<APIMessage[]> {
-		const response: AxiosResponse<{ messages: APIMessage[] }> = await axios.get(`${this.apiBase}/channels/${channelID}/messages`, this.baseConfig);
+	public async getMessages({ channelID, before }: { channelID: string; before?: Date }): Promise<APIMessage[]> {
+		const response: AxiosResponse<{ messages: APIMessage[] }> = await axios.get(`${this.apiBase}/channels/${channelID}/messages?before=${before?.toISOString() ?? ''}`, this.baseConfig);
 		return response.data.messages;
 	}
 
