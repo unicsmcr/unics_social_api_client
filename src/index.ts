@@ -70,6 +70,11 @@ export class APIClient {
 		return response.data.user;
 	}
 
+	public async getPublicUsers(): Promise<APIUser[]> {
+		const response: AxiosResponse<{users: APIUser[] }> = await axios.get(`${this.apiBase}/users`, this.baseConfig);
+		return response.data.users;
+	}
+
 	public async getMe(): Promise<APIUser> {
 		const response: AxiosResponse<{ user: APIUser }> = await axios.get(`${this.apiBase}/users/@me`, this.baseConfig);
 		return response.data.user;

@@ -29,6 +29,7 @@ export interface ProfileUploadData {
 	facebook?: string;
 	twitter?: string;
 	linkedin?: string;
+	visibility: Visibility;
 }
 
 export interface ProfileData {
@@ -39,6 +40,7 @@ export interface ProfileData {
 	facebook?: string;
 	twitter?: string;
 	linkedin?: string;
+	visibility: Visibility;
 }
 
 export enum Course {
@@ -58,6 +60,11 @@ export enum Year {
 	MASTERS = 'Masters Year',
 	INDUSTRIAL = 'Industrial Year',
 	PHD = 'PhD Student'
+}
+
+export enum Visibility {
+	Private = 0,
+	Public = 1
 }
 
 export interface EventCreationData {
