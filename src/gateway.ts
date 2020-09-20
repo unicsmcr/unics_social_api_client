@@ -82,7 +82,12 @@ export class GatewayClient extends EventEmitter {
 	private async send<T extends GatewayPacket>(packet: T) {
 		return new Promise((resolve, reject) => {
 			if (isBrowser) {
-				this.ws.send(JSON.stringify(packet));
+				try {
+					this.ws.send(JSON.stringify(packet));
+					resolve();
+				} catch (error) {
+					reject(error);
+				}
 			} else {
 				(this.ws as NodeWebSocket).send(JSON.stringify(packet), err => err ? reject(err) : resolve());
 			}
