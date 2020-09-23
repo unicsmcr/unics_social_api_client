@@ -205,4 +205,14 @@ export class APIClient {
 		}, this.baseConfig);
 		return response.data.report;
 	}
+
+	/* Discord */
+	public async getDiscordOAuth2URL() {
+		const response: AxiosResponse<{ url: string }> = await axios.get(`${this.apiBase}/users/@me/discord/authorize`, this.baseConfig);
+		return response.data.url;
+	}
+
+	public async linkDiscordAccount({ code, state }: { code: string; state: string }) {
+		await axios.post(`${this.apiBase}/users/@me/discord/link`, { code, state }, this.baseConfig);
+	}
 }
