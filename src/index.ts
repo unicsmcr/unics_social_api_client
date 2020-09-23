@@ -199,9 +199,10 @@ export class APIClient {
 	}
 
 	/* Report */
-
-	public async reportUser(data: ReportDataToCreate): Promise<APIReport> {
-		const response: AxiosResponse<{ report: APIReport }> = await axios.post(`${this.apiBase}/users/${data.reportedUserID}/report`, data, this.baseConfig);
+	public async reportUser(data: Omit<ReportDataToCreate, 'reportingUserID'>): Promise<APIReport> {
+		const response: AxiosResponse<{ report: APIReport }> = await axios.post(`${this.apiBase}/users/${data.reportedUserID}/report`, {
+			description: data.description
+		}, this.baseConfig);
 		return response.data.report;
 	}
 }
