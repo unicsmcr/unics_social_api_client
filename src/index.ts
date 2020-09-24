@@ -59,6 +59,10 @@ export class APIClient {
 		});
 	}
 
+	public async resendVerificationEmail(email: string): Promise<void> {
+		await axios.post(`${this.apiBase}/resendVerificationEmail`, { email }, this.baseConfig);
+	}
+
 	public async authenticate(data: AuthenticateData) {
 		const response: AxiosResponse<APIAuthenticateResponse> = await axios.post(`${this.apiBase}/authenticate`, data, this.baseConfig);
 		this.token = response.data.token;
