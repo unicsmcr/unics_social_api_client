@@ -1,4 +1,4 @@
-import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, EventCreationData, EventEditData, GetMessageData, APIMessage, APIDMChannel, ProfileUploadData, APIEventChannel, APIReport, ReportDataToCreate } from './types/api';
+import { RegisterData, AuthenticateData, APIAuthenticateResponse, APIUser, APIEvent, EventCreationData, EventEditData, GetMessageData, APIMessage, APIDMChannel, ProfileUploadData, APIEventChannel, APIReport, ReportDataToCreate, APINote, NoteType } from './types/api';
 import axios, { AxiosResponse } from 'axios';
 import { GatewayClient } from './gateway';
 import FormData from 'form-data';
@@ -232,5 +232,20 @@ export class APIClient {
 
 	public async linkDiscordAccount({ code, state }: { code: string; state: string }) {
 		await axios.post(`${this.apiBase}/users/@me/discord/link`, { code, state }, this.baseConfig);
+	}
+
+	/* Notes */
+	public async getNotes(): Promise<APINote[]> {
+		const response: AxiosResponse<{ notes: APINote[] }> = await axios.get(`${this.apiBase}/users/@me/notes`, this.baseConfig);
+		return response.data.notes;
+	}
+
+	public async createNote(userID: string, noteType: NoteType): Promise<APINote> {
+		const response: AxiosResponse<{ note: APINote }> = await axios.put(`${this.apiBase}/users/@me/notes/${userID}`, { noteType }, this.baseConfig);
+		return response.data.note;
+	}
+
+	public async deleteNote(userID: string): Promise<void> {
+		await axios.delete(`${this.apiBase}/users/@me/notes/${userID}`, this.baseConfig);
 	}
 }
