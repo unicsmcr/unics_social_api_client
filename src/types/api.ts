@@ -154,3 +154,15 @@ export interface APIReport {
 }
 
 export type ReportDataToCreate = Omit<APIReport, 'reportingUserID' | 'id' | 'currentTime'>;
+
+export interface APINote {
+	ownerID: string;
+	targetUserID: string;
+	noteType: NoteType;
+	time: string;
+}
+
+export enum NoteType {
+	Blocked = 0,
+	Liked = 1
+}
