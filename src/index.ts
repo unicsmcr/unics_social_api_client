@@ -103,6 +103,20 @@ export class APIClient {
 		return response.data.user;
 	}
 
+	public async forgotPassword(email: string): Promise<void> {
+		await axios.post(`${this.apiBase}/forgot_password`, { email }, this.baseConfig);
+	}
+
+	public async resetPassword({ token, newPassword }: { token: string; newPassword: string }): Promise<void> {
+		await axios.post(`${this.apiBase}/reset_password`, { password: newPassword }, {
+			...this.baseConfig,
+			headers: {
+				...this.baseConfig.headers,
+				Authorization: token
+			}
+		});
+	}
+
 	/*
 		Event Routes
 	*/
