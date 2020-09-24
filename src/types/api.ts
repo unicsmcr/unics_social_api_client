@@ -153,4 +153,4 @@ export interface APIReport {
 	description: string;
 }
 
-export type ReportDataToCreate = Omit<APIReport, 'id' | 'currentTime'>;
+export type ReportDataToCreate = Omit<APIReport, 'reportingUserID' | 'id' | 'currentTime'>;

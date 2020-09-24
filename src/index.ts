@@ -103,6 +103,20 @@ export class APIClient {
 		return response.data.user;
 	}
 
+	public async forgotPassword(email: string): Promise<void> {
+		await axios.post(`${this.apiBase}/forgot_password`, { email }, this.baseConfig);
+	}
+
+	public async resetPassword({ token, newPassword }: { token: string; newPassword: string }): Promise<void> {
+		await axios.post(`${this.apiBase}/reset_password`, { password: newPassword }, {
+			...this.baseConfig,
+			headers: {
+				...this.baseConfig.headers,
+				Authorization: token
+			}
+		});
+	}
+
 	/*
 		Event Routes
 	*/
@@ -199,7 +213,7 @@ export class APIClient {
 	}
 
 	/* Report */
-	public async reportUser(data: Omit<ReportDataToCreate, 'reportingUserID'>): Promise<APIReport> {
+	public async reportUser(data: ReportDataToCreate): Promise<APIReport> {
 		const response: AxiosResponse<{ report: APIReport }> = await axios.post(`${this.apiBase}/users/${data.reportedUserID}/report`, {
 			description: data.description
 		}, this.baseConfig);

@@ -20,12 +20,10 @@ export const validReports: APIReport[] = [
 export const validCreateReportData: ReportDataToCreate[] = [
 	{
 		reportedUserID: '1a2b3c4d5e',
-		reportingUserID: '123456',
 		description: 'Bob Ross is just so gosh darn wholesome!'
 	},
 	{
 		reportedUserID: '123456',
-		reportingUserID: '1a2b3c4d5e',
 		description: 'All I\'m saying is... bad vibes.'
 	}
 ];
@@ -33,12 +31,10 @@ export const validCreateReportData: ReportDataToCreate[] = [
 export const invalidCreateReportData: ReportDataToCreate[] = [
 	{
 		reportedUserID: '1a2b3c4d5e',
-		reportingUserID: '',
 		description: 'Bob Ross is just so gosh darn wholesome!'
 	},
 	{
 		reportedUserID: '',
-		reportingUserID: '1a2b3c4d5e',
 		description: 'All I\'m saying is... bad vibes.'
 	}
 ];
