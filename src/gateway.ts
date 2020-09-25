@@ -79,7 +79,7 @@ export class GatewayClient extends EventEmitter {
 		this.ws.onclose = this.onClose.bind(this);
 	}
 
-	private async send<T extends GatewayPacket>(packet: T) {
+	public async send<T extends GatewayPacket>(packet: T) {
 		return new Promise((resolve, reject) => {
 			if (isBrowser) {
 				try {
