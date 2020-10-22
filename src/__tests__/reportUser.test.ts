@@ -14,7 +14,6 @@ const apiClientInit = new apiClient.APIClient({ apiBase: 'unics-social' });
 test('reportUser(): creates report correctly', async () => {
 	let i = 0;
 	for (const report of validReports) {
-		console.log(report, validCreateReportData[i]);
 		mock.onPost(`unics-social/users/${report.reportedUserID}/report`, { description: validCreateReportData[i].description }).reply(201, {
 			report: report
 		});

@@ -1,4 +1,4 @@
-import { APIPrivateUser, Course, Year, APIAccountStatus, APIAccountType, Visibility } from '../../types/api';
+import { APIPrivateUser, Year, APIAccountStatus, APIAccountType, Visibility } from '../../types/api';
 export const privateUsers: APIPrivateUser[] = [
 	{
 		id: '123456',
@@ -7,7 +7,7 @@ export const privateUsers: APIPrivateUser[] = [
 		accountStatus: APIAccountStatus.Verified,
 		accountType: APIAccountType.User,
 		profile: {
-			course: Course.COMPUTER_SCIENCE,
+			course: 'Computer Science',
 			yearOfStudy: Year.ONE,
 			instagram: 'doraemi12',
 			facebook: 'thatjohndoe',
@@ -24,7 +24,7 @@ export const privateUsers: APIPrivateUser[] = [
 		accountStatus: APIAccountStatus.Verified,
 		accountType: APIAccountType.User,
 		profile: {
-			course: Course.ARTIFICIAL_INTELLIGENCE,
+			course: 'Artificial Intelligence',
 			yearOfStudy: Year.MASTERS,
 			instagram: 'bobross1234',
 			facebook: 'undefined',
