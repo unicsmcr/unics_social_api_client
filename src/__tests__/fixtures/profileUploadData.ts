@@ -1,9 +1,9 @@
-import { ProfileUploadData, Course, Year, Visibility } from '../../types/api';
+import { ProfileUploadData, Year, Visibility } from '../../types/api';
 
 export const validUploadData: ProfileUploadData[] = [
 	{
 		avatar: false,
-		course: Course.COMPUTER_SCIENCE,
+		course: 'Computer Science',
 		yearOfStudy: Year.ONE,
 		instagram: 'doraemi12',
 		facebook: 'thatjohndoe',
@@ -13,7 +13,7 @@ export const validUploadData: ProfileUploadData[] = [
 	},
 	{
 		avatar: false,
-		course: Course.ARTIFICIAL_INTELLIGENCE,
+		course: 'Artificial Intelligence',
 		yearOfStudy: Year.MASTERS,
 		instagram: 'bobross1234',
 		facebook: 'undefined',
@@ -26,7 +26,7 @@ export const validUploadData: ProfileUploadData[] = [
 export const invalidInstagramHandles: ProfileUploadData[] = [
 	{
 		avatar: false,
-		course: Course.COMPUTER_SCIENCE,
+		course: 'Computer Science',
 		yearOfStudy: Year.ONE,
 		instagram: '!!!notvalid',
 		facebook: 'thatjohndoe',
@@ -35,7 +35,7 @@ export const invalidInstagramHandles: ProfileUploadData[] = [
 	},
 	{
 		avatar: false,
-		course: Course.ARTIFICIAL_INTELLIGENCE,
+		course: 'Artificial Intelligence',
 		yearOfStudy: Year.MASTERS,
 		instagram: '..bob',
 		facebook: 'undefined',
@@ -47,7 +47,7 @@ export const invalidInstagramHandles: ProfileUploadData[] = [
 export const invalidFacebookHandles: ProfileUploadData[] = [
 	{
 		avatar: false,
-		course: Course.COMPUTER_SCIENCE,
+		course: 'Computer Science',
 		yearOfStudy: Year.ONE,
 		instagram: 'john2468',
 		facebook: ':)',
@@ -56,7 +56,7 @@ export const invalidFacebookHandles: ProfileUploadData[] = [
 	},
 	{
 		avatar: false,
-		course: Course.ARTIFICIAL_INTELLIGENCE,
+		course: 'Artificial Intelligence',
 		yearOfStudy: Year.MASTERS,
 		instagram: 'bobross234',
 		facebook: ':p_invalid',

@@ -21,6 +21,8 @@ export interface AuthenticateData {
 	password: string;
 }
 
+type Course = string;
+
 export interface ProfileUploadData {
 	course: Course;
 	yearOfStudy: Year;
@@ -41,16 +43,6 @@ export interface ProfileData {
 	twitter?: string;
 	linkedin?: string;
 	visibility: Visibility;
-}
-
-export enum Course {
-	ARTIFICIAL_INTELLIGENCE = 'Artificial Intelligence',
-	COMPUTER_SCIENCE_AND_MATHEMATICS = 'Computer Science and Mathematics',
-	COMPUTER_SCIENCE = 'Computer Science',
-	HUMAN_COMPUTER_INTERACTION = 'Human Computer Interaction',
-	COMPUTER_SYSTEMS_ENGINEERING = 'Computer Systems Engineering',
-	SOFTWARE_ENGINEERING = 'Software Engineering',
-	OTHER = 'Other'
 }
 
 export enum Year {

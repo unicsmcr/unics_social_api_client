@@ -21,6 +21,7 @@ export enum GatewayPacketType {
 
 export interface QueueOptions {
 	sameYear: boolean;
+	sameDepartment: boolean;
 }
 
 export interface GatewayPacket {
